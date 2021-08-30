@@ -55,7 +55,7 @@ export const ProjectItems = () => {
                 } else {
                   const isChecked = { ...selectedItems };
                   delete isChecked[item.derivativesId];
-                  console.log({ selectedItems, isChecked });
+
                   setSelectedItems(isChecked);
                 }
               }}
