@@ -7,18 +7,11 @@ import { Logger } from '@nestjs/common';
 
 let arr: ItemDetails[] = [];
 
-export const metadata = async () => {
+export const metadata = async (allItems) => {
   const guid = new ForgeSDK.DerivativesApi();
   const credentials = await oAuth2();
-  const allItems = await items();
 
-  const filteredItems = allItems.filter((item) => {
-    if (item.fileType === 'rvt' && item.originalItemUrn) {
-      return true;
-    }
-  });
-
-  for await (const guidContent of filteredItems) {
+  for await (const guidContent of allItems) {
     while (true) {
       try {
         // check if the transalteProsses complete
@@ -55,19 +48,18 @@ export const metadata = async () => {
           });
 
           //push all items that finish translation(but status could be failed)
-          arr.push({
-            ...guidContent,
-            ...roleInfo,
-            translateStatus: transalteProsses.body.status,
-            translateProgress: transalteProsses.body.progress,
-          });
-          break;
+          return [
+            {
+              ...guidContent,
+              ...roleInfo,
+              translateStatus: transalteProsses.body.status,
+              translateProgress: transalteProsses.body.progress,
+            },
+          ];
         }
       } catch (error) {
         Logger.log(error);
       }
     }
   }
-
-  return arr;
 };

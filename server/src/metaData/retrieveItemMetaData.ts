@@ -35,28 +35,16 @@ export type ElementProperties = {
   BIM7AATypeComments: string;
 };
 
-export const propertiesMetadata = async () => {
+export const propertiesMetadata = async (allItemsMetaData) => {
   // await publishCloudWorkshared();
 
   let arr = [];
+  let metadata = [];
   const guid = new ForgeSDK.DerivativesApi();
-  const allItemsMetaData = await metadata();
-
-  const hasGuId = allItemsMetaData.filter((item) => {
-    if (
-      item.guid &&
-      (item.fileName.includes('K07') ||
-        item.fileName.includes('K08') ||
-        item.fileName.includes('K09') ||
-        item.fileName.includes('K10'))
-    ) {
-      return true;
-    } else return false;
-  });
 
   const credentials = await oAuth2();
 
-  for await (const itemMetaData of hasGuId) {
+  for await (const itemMetaData of allItemsMetaData) {
     // const derivativesId = itemMetaData.guidContent.derivativesId;
 
     while (true) {
@@ -81,7 +69,6 @@ export const propertiesMetadata = async () => {
             ` Status:${itemProperties.statusCode} retrieve json data for model`,
             itemMetaData.fileName,
           );
-          //   arr.push({ itemProperties, itemDteails:itemMetaData });
 
           const hasTypeName = hasIdentityData(
             itemProperties.body.data.collection,
@@ -96,31 +83,17 @@ export const propertiesMetadata = async () => {
     }
   }
 
-  const hubs = await hub(credentials);
-  const allProjects = await projects(hubs);
-  await insertProjects(allProjects);
-
   for await (const property of arr) {
-    //detailes from Item
-    const id = property.itemMetaData.versionId as string;
-    const projectId = property.itemMetaData.projectId as string;
-    const projectName = property.itemMetaData.projectName as string;
-    const originalItemUrn = property.itemMetaData.originalItemUrn as string;
     const name = property.itemMetaData.fileName as string;
     const elementsCount = property.hasTypeName.length as string;
     const date = property.itemMetaData.lastModifiedTime as string;
-    const modiId = id.split('?')[0] as string;
-    const version_id = id.split('=')[1];
-    Logger.debug(version_id);
 
     const eltCollection = property.hasTypeName.map((elt) => {
       const dbId = elt.name.split('[')[1].split(']')[0];
 
-      // return elt;
       return {
         name: elt.name,
         dbId: Number(dbId),
-        version_id: Number(version_id),
         externalId: elt['externalId'],
         TypeName: elt.properties['Identity Data']['Type Name'],
         objectId: property.itemMetaData.versionId,
@@ -138,24 +111,8 @@ export const propertiesMetadata = async () => {
       };
     }) as ElementProperties[];
 
-    //calling the database
-    await deleteObjId(modiId);
-    await insdertItems({
-      id,
-      projectId,
-      originalItemUrn,
-      name,
-      elementsCount,
-      date,
-    });
-    await insterElements(eltCollection);
-    Logger.debug('*****************DONE*****************');
-
-    await delay(10 * 1000);
+    return eltCollection;
   }
-  console.log('*****************DONE*****************');
-
-  return '*****************DONE*****************';
 };
 
 /**/

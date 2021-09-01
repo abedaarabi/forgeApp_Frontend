@@ -2,9 +2,9 @@ import { Logger } from '@nestjs/common';
 import { publishModel } from 'src/SDKpublishModel/publishModel';
 import { items } from '../shared/forge.items';
 
-export const publishCloudWorkshared = async () => {
+export const publishCloudWorkshared = async (allItems) => {
   let arr = [];
-  const allItems = await items();
+  // const allItems = await items();
 
   const filteredItems = allItems
     .filter((item) => {

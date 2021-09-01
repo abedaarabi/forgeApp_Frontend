@@ -1,6 +1,8 @@
 import * as React from "react";
-
+import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
+import "./SearchBar.css";
+//ignore
 
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
@@ -39,27 +41,41 @@ export const Project = () => {
   }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="search for project..."
-        onChange={(event) => setSearch(event.target.value)}
-      />
+    <div className="search">
+      <div className="searchInputs">
+        <input
+          type="text"
+          placeholder="search for project..."
+          onChange={(event) => setSearch(event.target.value)}
+        />
 
-      <div>
-        {isLoading
-          ? null
-          : searchecProject.slice(0, 10).map((project) => (
-              <div key={project.id}>
-                {
-                  <div>
-                    <Link to={`/project/${project.id}`}>{project.name}</Link>
-                  </div>
-                }
-                <br />
-              </div>
-            ))}
+        <div className="searchIcon">
+          {isLoading ? (
+            <div>
+              <LinearProgress color="secondary" />
+            </div>
+          ) : (
+            <div className="dataResult">
+              {searchecProject.slice(0, 10).map((project) => (
+                <div key={project.id}>
+                  {
+                    <div className="dataItem">
+                      <Link
+                        to={`/project/${project.id}/${project.name}`}
+                        style={{ textDecoration: "none", color: "gray" }}
+                      >
+                        {project.name}
+                      </Link>
+                    </div>
+                  }
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
+
+//https://material-ui.com/components/tables/
