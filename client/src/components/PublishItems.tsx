@@ -2,19 +2,23 @@ import * as React from "react";
 import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
 import { ItemDetails } from "../../../server/src/interfaces/interface.item";
-import { DataTable } from "./projectMetaData.component";
+import { DataTable } from "./ProjectMetaData";
+import { Checkbox } from "antd";
 
 import { Link, useParams } from "react-router-dom";
 import { TypeProject } from "../../../server/src/interfaces/interface.project";
 
-export const ProjectItems = () => {
+export const PublishItems = () => {
   const [allItems, setallItems] = React.useState([] as ItemDetails[]);
+  const [isPublished, setIsPublished] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [selectedItems, setSelectedItems] = React.useState(
     {} as { [key: string]: ItemDetails }
   );
 
   const { id, name }: { id: string; name: string } = useParams();
+  const abed = useParams();
+  console.log("========", abed);
 
   const getProject = async () => {
     try {
@@ -27,9 +31,29 @@ export const ProjectItems = () => {
       setallItems(data);
     } catch (error) {}
   };
+  console.log(allItems);
+
+  const publishItem = async () => {
+    return setIsPublished(false);
+    const selectArray = Object.values(selectedItems);
+    try {
+      const response = await fetch(`http://localhost:3050/projects/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectArray), // body data type must match "Content-Type" header
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
     getProject();
+    publishItem();
   }, []);
   console.log(selectedItems);
 
@@ -37,7 +61,7 @@ export const ProjectItems = () => {
 
   return (
     <div>
-      <h1 style={{ color: "white" }}> {name} </h1>
+      <h1 style={{ color: "white" }}> Publish {name} </h1>
       {isLoading ? (
         <div>
           <LinearProgress color="secondary" />
@@ -45,9 +69,8 @@ export const ProjectItems = () => {
       ) : (
         allItems.map((item) => (
           <div key={item.derivativesId}>
-            <input
-              type="checkbox"
-              onChange={(e) => {
+            <Checkbox
+              onChange={(e: any) => {
                 const value = e.target.checked;
 
                 if (value) {
@@ -66,41 +89,13 @@ export const ProjectItems = () => {
                   setSelectedItems(isChecked);
                 }
               }}
-            />
-            <label style={{ textDecoration: "none", color: "white" }}>
+              style={{ color: "white" }}
+            >
               {item.fileName}
-            </label>
+            </Checkbox>
           </div>
         ))
       )}
-
-      {arrayOfItems[0] &&
-        (arrayOfItems.length === 1 ? (
-          <div style={{ padding: "10px 50px" }}>
-            <Link to={`/table/${id}/items/${arrayOfItems[0].derivativesId}`}>
-              <p
-                style={{
-                  padding: "10px 70px",
-                  backgroundColor: "lightBlue",
-                  color: "white",
-                  textDecoration: "none",
-                }}
-              >
-                Project Metadata
-              </p>
-            </Link>
-          </div>
-        ) : (
-          <p
-            style={{
-              padding: "10px 50px",
-              backgroundColor: "red",
-              color: "white",
-            }}
-          >
-            Please select only one item
-          </p>
-        ))}
     </div>
   );
 };
@@ -132,3 +127,31 @@ export const ProjectItems = () => {
 
 //   console.log(selectArray);
 // };
+
+{
+  /* <input
+              type="checkbox"
+              onChange={(e) => {
+                const value = e.target.checked;
+
+                if (value) {
+                  const isChecked = {
+                    ...selectedItems,
+
+                    [item.derivativesId]: item,
+                  };
+                  // isChecked[item.derivativesId] = item;
+                  setSelectedItems(isChecked);
+                } else {
+                  const isChecked = { ...selectedItems };
+
+                  delete isChecked[item.derivativesId];
+
+                  setSelectedItems(isChecked);
+                }
+              }}
+            />
+            <label style={{ textDecoration: "none", color: "white" }}>
+              {item.fileName}
+            </label> */
+}

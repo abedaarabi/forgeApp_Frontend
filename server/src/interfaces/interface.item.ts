@@ -49,6 +49,7 @@ export interface Item {
 }
 
 export interface ItemDetails {
+  publishStatus: string;
   versionId: string;
   fileName: string;
   projectName: string;

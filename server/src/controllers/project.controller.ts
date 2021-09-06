@@ -9,6 +9,8 @@ import { folderContent } from 'src/shared/forge.topFolderContent';
 import { publishCloudWorkshared } from 'src/publishModel/publishCloudWorkshared';
 import { metadata } from 'src/metaData/forge.derivative';
 import { propertiesMetadata } from 'src/metaData/retrieveItemMetaData';
+import { verifyIsPublished } from 'src/SDKpublishModel/verifyIsPublished';
+import { publishModel } from 'src/SDKpublishModel/publishModel';
 
 @Controller('projects')
 export class ProjectController {
@@ -32,20 +34,8 @@ export class ProjectController {
     );
     const allItems = await items(selectedProject);
 
-    const allSelectedItems = allItems.filter((item) => {
-      if (
-        item.fileType === 'rvt' &&
-        item.originalItemUrn &&
-        (item.fileName.includes('K07') ||
-          item.fileName.includes('K08') ||
-          item.fileName.includes('K09') ||
-          item.fileName.includes('K10'))
-      ) {
-        return true;
-      }
-    });
-
-    return allSelectedItems;
+    const isPublished = await publishCloudWorkshared(allItems, false);
+    return isPublished;
   }
 
   //item
@@ -59,5 +49,11 @@ export class ProjectController {
     const resultMeatData = await propertiesMetadata(result);
     console.log(resultMeatData);
     return resultMeatData;
+  }
+
+  @Post('/:projectId/publish')
+  async publishItem(@Body() body) {
+    const isPublished = await publishCloudWorkshared(body, true);
+    return isPublished;
   }
 }

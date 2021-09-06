@@ -1,11 +1,14 @@
 import { Logger } from '@nestjs/common';
 import { publishModel } from 'src/SDKpublishModel/publishModel';
 import { items } from '../shared/forge.items';
+import * as ForgeSDK from 'forge-apis';
+import { oAuth2 } from '../shared/forge.oAuth2';
 
-export const publishCloudWorkshared = async (allItems) => {
+export const publishCloudWorkshared = async (allItems, isPublish: boolean) => {
   let arr = [];
+  const credentials = await oAuth2();
   // const allItems = await items();
-
+  const guid = new ForgeSDK.DerivativesApi();
   const filteredItems = allItems
     .filter((item) => {
       if (item.fileType === 'rvt' && item.originalItemUrn) {
@@ -23,19 +26,43 @@ export const publishCloudWorkshared = async (allItems) => {
         return true;
       } else return false;
     });
-  console.log('rrtt#######');
+  console.log(isPublish);
 
   for await (const item of filteredItems) {
     const publishModels = await publishModel(
       item.projectId,
       item.originalItemUrn,
-      true, // true: orderPublishing  false: verifyPublishing
+      isPublish, // true: orderPublishing  false: verifyPublishing
     );
-    Logger.debug('initialize publisg: ', item.fileName);
 
-    arr.push(publishModels);
+    const transalteProsses = await guid.getManifest(
+      item.derivativesId,
+      null,
+      null,
+      credentials,
+    );
+    // Logger.debug('initialize publisg: ', item.fileName);
+    const y = transalteProsses.body.progress;
+    const x = transalteProsses.body.status;
+    arr.push({
+      itemInfo: item,
+      publishModels,
+      transalteProsses: y,
+      transalteStatus: x,
+    });
   }
-  Logger.log('##########Finish publishing order');
 
-  return arr;
+  return arr.map((item) => {
+    let publishVerifyed: string;
+
+    if (!item.publishModels.data && item.transalteProsses === 'complete') {
+      publishVerifyed = 'Need to Publish';
+    } else if (item.transalteProsses === 'complete') {
+      publishVerifyed = 'complete';
+    } else if (item.transalteStatus === 'inprogress') {
+      publishVerifyed = 'inprogress';
+    }
+
+    return { ...item.itemInfo, publishStatus: publishVerifyed };
+  });
 };

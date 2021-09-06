@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Table, Tag, Space } from "antd";
 
@@ -53,8 +53,8 @@ const columns = [
   },
 ];
 export function DataTable() {
-  const f = useParams();
-  console.log(f);
+  const pathname = useLocation();
+  console.log(pathname.state);
 
   const { id, derivativesId }: { id: string; derivativesId: string } =
     useParams();
@@ -79,7 +79,7 @@ export function DataTable() {
   React.useEffect(() => {
     modelDerivative();
   }, []);
-  console.log(elementData);
+  // console.log(elementData);
 
   return (
     <div>
@@ -88,24 +88,6 @@ export function DataTable() {
       ) : (
         <div style={{ height: 600 }}>
           <Table dataSource={elementData} columns={columns} />;
-          {/* <table>
-            <tr>
-              <th>Name</th>
-              <th>Type Name</th>
-              <th>dbId</th>
-            </tr>
-          </table> */}
-          {/* {elementData.map((elt) => {
-            return (
-              <div>
-                <tr>
-                  <td>{elt.name}</td>
-                  <td>{elt.TypeName}</td>
-                  <td>{elt.dbId}</td>
-                </tr>
-              </div>
-            );
-          })} */}
         </div>
       )}
     </div>

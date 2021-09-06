@@ -1,30 +1,24 @@
 import React from "react";
-import { Project } from "./components/projects.component";
-import { ProjectItems } from "./components/projectItems.component";
-import { DataTable } from "./components/projectMetaData.component";
-import { PageNotFound } from "./components/pageNotFound";
+import { Project } from "./components/Projects";
+import { ProjectItems } from "./components/ProjectItems";
+import { PublishItems } from "./components/PublishItems";
+import { DataTable } from "./components/ProjectMetaData";
+import { PageNotFound } from "./components/PageNotFound";
 import { Home } from "./components/Home";
+import { NavBar } from "./components/NavBar";
 import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
       <Router>
-        <div
-          style={{
-            width: 100 + "vw",
-            height: 70,
-            backgroundColor: "lightBlue",
-          }}
-        >
-          <Link to="/">Home</Link>
-          <Link to="/project">project</Link>
-        </div>
+        <NavBar />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/project" exact>
             <Project />
           </Route>
           <Route path="/project/:id/:name" component={ProjectItems} />
+          <Route path="/publish" component={PublishItems} />
           <Route
             path="/table/:id/items/:derivativesId"
             exact
