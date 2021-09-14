@@ -79,7 +79,7 @@ export function DataTable() {
   React.useEffect(() => {
     modelDerivative();
   }, []);
-  // console.log(elementData);
+  console.log(elementData);
 
   return (
     <div>

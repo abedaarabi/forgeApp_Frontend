@@ -29,7 +29,7 @@ export async function publishModel(
     headers: {
       'content-type': 'application/vnd.api+json',
       Authorization: `Bearer ${credentials.access_token}`,
-      'x-user-id': '4RL5NPRJ3LNM',
+      'x-user-id': 'G37HRH22DWBV',
     },
     data: JSON.stringify({
       jsonapi: {
@@ -56,6 +56,6 @@ export async function publishModel(
       },
     }),
   });
-  Logger.log('translate prosses: ', response.data);
+  // console.log('translate prosses: ', response.data);
   return response.data;
 }

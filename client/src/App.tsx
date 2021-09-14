@@ -6,12 +6,15 @@ import { DataTable } from "./components/ProjectMetaData";
 import { PageNotFound } from "./components/PageNotFound";
 import { Home } from "./components/Home";
 import { NavBar } from "./components/NavBar";
+
 import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
+import { ForgeViewer } from "./components/popUp/forgeViewer/ForgeViewer";
 function App() {
   return (
     <div className="App">
       <Router>
         <NavBar />
+
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/project" exact>
@@ -23,6 +26,11 @@ function App() {
             path="/table/:id/items/:derivativesId"
             exact
             component={DataTable}
+          />
+          <Route
+            path="/viewer/:id/items/3dViewer"
+            exact
+            component={ForgeViewer}
           />
           <Route path="*" component={PageNotFound} />
         </Switch>

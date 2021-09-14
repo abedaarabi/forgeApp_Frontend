@@ -3,10 +3,11 @@ import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
 import { ItemDetails } from "../../../server/src/interfaces/interface.item";
 import { PublishItems } from "./PublishItems";
-import { Checkbox } from "antd";
+import { Checkbox, Spin, Space } from "antd";
 import { Result, Button } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { TypeProject } from "../../../server/src/interfaces/interface.project";
+import { PopUp } from "./popUp/PopUp";
 
 export const ProjectItems = () => {
   const [allItems, setallItems] = React.useState([] as ItemDetails[]);
@@ -15,8 +16,11 @@ export const ProjectItems = () => {
   const [selectedItems, setSelectedItems] = React.useState(
     {} as { [key: string]: ItemDetails }
   );
-
+  const [aPopUp, setApopUp] = React.useState(false);
+  const [publishLoading, setPublishLoading] = React.useState(false);
   const { id, name }: { id: string; name: string } = useParams();
+
+  const [cChecked, setCChecked] = React.useState(false);
 
   const getProject = async () => {
     try {
@@ -30,7 +34,7 @@ export const ProjectItems = () => {
     } catch (error) {}
   };
   const arrayOfItems = Object.values(selectedItems);
-
+  console.log("8888", selectedItems);
   const publishItems = async () => {
     try {
       const response = await fetch(
@@ -61,12 +65,13 @@ export const ProjectItems = () => {
         <div>
           <LinearProgress color="secondary" />
         </div>
-      ) : (
+      ) : allItems ? (
         allItems.map((item) => {
           if (item.publishStatus === "complete") {
             return (
               <div key={item.derivativesId}>
                 <Checkbox
+                  checked={Boolean(selectedItems[item.derivativesId])}
                   onChange={(e: any) => {
                     const value = e.target.checked;
 
@@ -76,6 +81,7 @@ export const ProjectItems = () => {
 
                         [item.derivativesId]: item,
                       };
+
                       // isChecked[item.derivativesId] = item;
                       setSelectedItems(isChecked);
                     } else {
@@ -96,13 +102,13 @@ export const ProjectItems = () => {
             return (
               <div key={item.derivativesId}>
                 <Checkbox
+                  checked={Boolean(selectedItems[item.derivativesId])}
                   onChange={(e: any) => {
                     const value = e.target.checked;
 
                     if (value) {
                       const isChecked = {
                         ...selectedItems,
-
                         [item.derivativesId]: item,
                       };
                       // isChecked[item.derivativesId] = item;
@@ -135,7 +141,7 @@ export const ProjectItems = () => {
             );
           }
         })
-      )}
+      ) : null}
 
       {arrayOfItems[0] &&
         (arrayOfItems.length === 1 ? (
@@ -152,19 +158,58 @@ export const ProjectItems = () => {
                     color: "white",
                     textDecoration: "none",
                     font: "large",
+                    position: "relative",
                   }}
                 >
                   Project Metadata
                 </p>
               </Link>
-              <div>
-                <Button
-                  onClick={async () => {
-                    publishItems();
+              <Link
+                to={{
+                  pathname: `/viewer/${id}/items/3dViewer`,
+                  state: arrayOfItems,
+                }}
+              >
+                <p
+                  style={{
+                    margin: "30px 100px",
+                    color: "white",
+                    textDecoration: "none",
+                    font: "large",
+                    position: "relative",
                   }}
                 >
-                  Back Home
-                </Button>
+                  View Models
+                </p>
+              </Link>
+              <div>
+                <div style={{ zIndex: 0, position: "absolute" }}>
+                  <Button
+                    onClick={async () => {
+                      console.log("hello");
+                      setPublishLoading(false);
+                      setApopUp(true);
+                    }}
+                  >
+                    Publish
+                  </Button>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: "-150px",
+                    zIndex: 1,
+                    position: "absolute",
+                  }}
+                >
+                  <PopUp
+                    tricker={aPopUp}
+                    setApopUp={setApopUp}
+                    publishItems={publishItems}
+                    setO={setPublishLoading}
+                    setCChecked={setSelectedItems}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -172,13 +217,49 @@ export const ProjectItems = () => {
           <div>
             <Button
               onClick={async () => {
-                publishItems();
+                console.log("hello");
+                setApopUp(true);
               }}
             >
-              Back Home
+              Publish
             </Button>
+            <PopUp
+              tricker={aPopUp}
+              setApopUp={setApopUp}
+              publishItems={publishItems}
+              setO={setPublishLoading}
+              setCChecked={setSelectedItems}
+            />
+            <Link
+              to={{
+                pathname: `/viewer/${id}/items/3dViewer`,
+                state: arrayOfItems,
+              }}
+            >
+              <p
+                style={{
+                  margin: "30px 100px",
+                  color: "white",
+                  textDecoration: "none",
+                  font: "large",
+                  position: "relative",
+                }}
+              >
+                View Models
+              </p>
+            </Link>
           </div>
         ))}
+      <div>
+        {publishLoading ? (
+          <div>
+            <Space size="large" color="secondary">
+              <Spin size="large" />
+            </Space>
+            ,
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };

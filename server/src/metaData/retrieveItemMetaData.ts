@@ -93,7 +93,7 @@ export const propertiesMetadata = async (allItemsMetaData) => {
 
       return {
         name: elt.name,
-        dbId: Number(dbId),
+        dbId: elt.objectid,
         externalId: elt['externalId'],
         TypeName: elt.properties['Identity Data']['Type Name'],
         objectId: property.itemMetaData.versionId,

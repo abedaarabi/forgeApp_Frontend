@@ -23,6 +23,14 @@ export class ProjectController {
     return allProjects;
   }
 
+  @Get('/credentials')
+  async token() {
+    const credentials = await oAuth2();
+    console.log(credentials.access_token);
+
+    return credentials.access_token;
+  }
+
   @Get('/:projectId/')
   async getProjectItems(@Param('projectId') projectId: string) {
     const credentials = await oAuth2();
@@ -47,7 +55,7 @@ export class ProjectController {
     const result = await metadata([{ derivativesId }]);
 
     const resultMeatData = await propertiesMetadata(result);
-    console.log(resultMeatData);
+
     return resultMeatData;
   }
 

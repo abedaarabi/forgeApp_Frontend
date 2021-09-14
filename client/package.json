@@ -46,7 +46,10 @@
     ]
   },
   "devDependencies": {
+    "@types/forge-apis": "^0.8.2",
+    "@types/forge-viewer": "^7.48.0",
     "@types/node-fetch": "^2.5.12",
-    "@types/react-router-dom": "^5.1.8"
+    "@types/react-router-dom": "^5.1.8",
+    "@types/three": "^0.131.0"
   }
 }
