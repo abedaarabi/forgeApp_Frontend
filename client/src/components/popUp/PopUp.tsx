@@ -24,10 +24,7 @@ export const PopUp = ({
     }, 10 * 1000);
 
   React.useEffect(() => {
-    const t = time();
-    return () => {
-      clearTimeout(t);
-    };
+    return () => {};
   }, []);
 
   return (
@@ -56,7 +53,7 @@ export const PopUp = ({
               onClick={() => {
                 setApopUp(false);
                 publishItems();
-
+                time();
                 setO(true);
               }}
             >

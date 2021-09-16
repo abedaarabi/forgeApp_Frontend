@@ -1,0 +1,14 @@
+.navBar {
+  background-color: rgb(29, 82, 151);
+  width: 95%;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  display: flex;
+  font-size: 20px;
+  /* align-items: center; */
+  justify-content: space-around;
+}
+¨.link {
+  color: white;
+}

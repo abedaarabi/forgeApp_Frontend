@@ -1,13 +1,14 @@
 import * as React from "react";
+import "./projectItems.css";
 import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
-import { ItemDetails } from "../../../server/src/interfaces/interface.item";
-import { PublishItems } from "./PublishItems";
+import { ItemDetails } from "../../../../server/src/interfaces/interface.item";
+import { PublishItems } from "../PublishItems";
 import { Checkbox, Spin, Space } from "antd";
 import { Result, Button } from "antd";
 import { Link, useParams } from "react-router-dom";
-import { TypeProject } from "../../../server/src/interfaces/interface.project";
-import { PopUp } from "./popUp/PopUp";
+import { TypeProject } from "../../../../server/src/interfaces/interface.project";
+import { PopUp } from "../popUp/PopUp";
 
 export const ProjectItems = () => {
   const [allItems, setallItems] = React.useState([] as ItemDetails[]);
@@ -59,8 +60,8 @@ export const ProjectItems = () => {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ color: "white" }}> {name} </h1>
+    <div className="mainDiv">
+      <h1 style={{ color: "gray" }}> {name} </h1>
       {isLoading ? (
         <div>
           <LinearProgress color="secondary" />
@@ -69,7 +70,7 @@ export const ProjectItems = () => {
         allItems.map((item) => {
           if (item.publishStatus === "complete") {
             return (
-              <div key={item.derivativesId}>
+              <div key={item.derivativesId} className="checkboxComplete">
                 <Checkbox
                   checked={Boolean(selectedItems[item.derivativesId])}
                   onChange={(e: any) => {
@@ -92,7 +93,7 @@ export const ProjectItems = () => {
                       setSelectedItems(isChecked);
                     }
                   }}
-                  style={{ color: "white" }}
+                  style={{ color: "gray" }}
                 >
                   {item.fileName}
                 </Checkbox>
@@ -121,7 +122,7 @@ export const ProjectItems = () => {
                       setSelectedItems(isChecked);
                     }
                   }}
-                  style={{ color: "white" }}
+                  style={{ color: "gray" }}
                 >
                   {item.fileName}
                   <p style={{ color: "red" }}>need to publish</p>
@@ -155,10 +156,10 @@ export const ProjectItems = () => {
                 <p
                   style={{
                     margin: "30px 100px",
-                    color: "white",
+                    color: "gray",
                     textDecoration: "none",
                     font: "large",
-                    position: "relative",
+                    position: "absolute",
                   }}
                 >
                   Project Metadata
@@ -173,7 +174,7 @@ export const ProjectItems = () => {
                 <p
                   style={{
                     margin: "30px 100px",
-                    color: "white",
+                    color: "gray",
                     textDecoration: "none",
                     font: "large",
                     position: "relative",
@@ -239,7 +240,7 @@ export const ProjectItems = () => {
               <p
                 style={{
                   margin: "30px 100px",
-                  color: "white",
+                  color: "gray",
                   textDecoration: "none",
                   font: "large",
                   position: "relative",

@@ -1,7 +1,7 @@
 import React from "react";
 import { Result, Button } from "antd";
 
-import { ForgeViewer } from "./popUp/forgeViewer/ForgeViewer";
+import { ForgeViewer } from "./forgeViewer/ForgeViewer";
 
 export function Home() {
   const [aPopUp, setApopUp] = React.useState(false);

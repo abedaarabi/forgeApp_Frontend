@@ -29,7 +29,7 @@ export async function publishModel(
     headers: {
       'content-type': 'application/vnd.api+json',
       Authorization: `Bearer ${credentials.access_token}`,
-      'x-user-id': 'G37HRH22DWBV',
+      'x-user-id': '4RL5NPRJ3LNM',
     },
     data: JSON.stringify({
       jsonapi: {

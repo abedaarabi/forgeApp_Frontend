@@ -1,3 +1,16 @@
+.dview {
+  position: absolute;
+  margin-left: -110px;
+  box-shadow: "2px 2px 4px #000000";
+  margin-left: -5x0px;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  margin-left: -600px;
+  margin-top: 20px;
+}
 button {
   width: 70px;
   height: 40px;
@@ -8,6 +21,7 @@ button {
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
+  position: relative;
 }
 button:hover {
   background-color: #3e8e41;
