@@ -1,4 +1,3 @@
-import { Button } from "antd/lib/radio";
 import React from "react";
 import "./popUP.css";
 type PopUp = {
@@ -9,11 +8,13 @@ type PopUp = {
 
 export const PopUp = ({
   tricker,
-  close,
+
   children,
   setApopUp,
   publishItems,
   setCChecked,
+  arrayOfItems,
+  projectId,
 
   setO,
 }: any) => {
@@ -21,26 +22,16 @@ export const PopUp = ({
     setTimeout(() => {
       setO(false);
       setCChecked({});
-    }, 10 * 1000);
+    }, 10 * 3000);
 
   React.useEffect(() => {
     return () => {};
   }, []);
 
   return (
-    <>
+    <div className="popup-main-div">
       {tricker ? (
         <div className=" modalContainer">
-          <div className="titleCloseBtn">
-            <button
-              onClick={() => {
-                setApopUp(false);
-              }}
-            >
-              X
-            </button>
-          </div>
-
           <div className="title">
             <h1>Publish Items</h1>
           </div>
@@ -52,7 +43,7 @@ export const PopUp = ({
             <button
               onClick={() => {
                 setApopUp(false);
-                publishItems();
+                publishItems(projectId, arrayOfItems);
                 time();
                 setO(true);
               }}
@@ -72,6 +63,6 @@ export const PopUp = ({
           {children}
         </div>
       ) : null}
-    </>
+    </div>
   );
 };

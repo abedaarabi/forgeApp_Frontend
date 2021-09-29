@@ -1,0 +1,13 @@
+.home-main-div {
+  display: flex;
+  justify-content: center;
+}
+.home-main-div h1 {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(39, 167, 23);
+  color: white;
+  width: 300px;
+  margin-top: 200px;
+  border-radius: 10px;
+}

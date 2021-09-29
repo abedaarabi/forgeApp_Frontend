@@ -1,7 +1,80 @@
-p {
-  color: gray;
+.view-model {
+  color: rgb(90, 90, 90);
+  border: 1px solid rgb(0, 0, 0);
+}
+.project-metadata {
+  color: rgb(90, 90, 90);
+  border: 1px solid rgb(0, 0, 0);
 }
 
-/* .checkboxComplete .mainDiv {
+.checkboxComplete {
+  border-radius: 5px;
+  height: 200px;
+  width: 200px;
+  margin-left: 100px;
+}
+
+.main-div {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  /* margin-left: -200px; */
+}
+
+.loading-bar {
+  padding: 10px;
+}
+
+button {
+  width: 150px;
+  height: 45px;
+  margin: 10px;
+  border: none;
+  background-color: rgba(161, 48, 13, 0.815);
+  color: white;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.project-list {
   position: relative;
-} */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.project-list-spin {
+  margin: 200px 0;
+}
+
+.project-list-items li {
+  list-style: none;
+  margin-right: 200px;
+  margin-top: 3px;
+}
+.project-list-items img {
+  /* list-style: none; */
+
+  width: 23px;
+  height: 20px;
+}
+
+.items-action-list {
+  margin-top: 50px;
+}
+
+.items-action-list li {
+  list-style: none;
+  margin-left: 200px;
+}
+
+.need-publish {
+  display: flex;
+  flex-direction: row;
+}
+.inprogress {
+  display: flex;
+  flex-direction: row;
+
+}

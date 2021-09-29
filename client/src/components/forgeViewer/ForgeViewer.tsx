@@ -1,7 +1,7 @@
 //https://forge.autodesk.com/blog/multi-model-refresher
 import "./forgeViewer.css";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { initializeViewer } from "../../helper/forgeViewer.helper";
 import { ItemsSelected } from "./ItemSelected";
 import axios from "axios";
@@ -24,8 +24,11 @@ async function isolateAndColorObject(
   const allModels = viewer.getAllModels();
 
   if (allModels) {
-    for await (const model of allModels) {
+    for await (let model of allModels) {
       const iExIds = await getExternalIds(model);
+      if (!iExIds) {
+        continue;
+      }
 
       if (iExIds) {
         externalIds?.forEach((id: string) => {
@@ -52,24 +55,32 @@ export const ForgeViewer = () => {
   // const [allurn, setAllurn] = React.useState([] as any);
 
   let allurn: any = [];
-  let newArr = [] as any;
+  let newArr = [] as boolean[];
 
-  let location = useLocation();
+  const location = useLocation();
   const selected3dModels = location.state as ItemDetails[];
 
-  console.log("selected3dModels", selected3dModels);
+  if (selected3dModels) {
+    try {
+      selected3dModels.map((model) => {
+        const urn = model.derivativesId;
+        const xform = { x: 0, y: 0, z: -50 };
+        const fileName = model.fileName;
 
-  selected3dModels.map((model) => {
-    const urn = model.derivativesId;
-    const xform = { x: 0, y: 0, z: -50 };
-    const fileName = model.fileName;
-    // return { urn, xform, fileName };
-    newArr.push(false);
-    allurn.push({ urn, xform, fileName });
-  });
+        newArr.push(false);
+        allurn.push({ urn, xform, fileName });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  console.log(selected3dModels);
+
   const [shouldIncrement, changeShouldIncrement] = React.useState(
     newArr as boolean[]
   );
+  console.log(allurn);
 
   const getToken = async () => {
     const url_base = "http://localhost:3050/projects/credentials";
@@ -182,20 +193,14 @@ export const ForgeViewer = () => {
 
   useEffect(() => {
     initializeViewer();
+    return () => {};
   }, []);
 
-  // const buttonLabel = shouldIncrement ? "Hide" : "Show";
-
   return (
-    <div>
-      <div
-        className="dview"
-        style={{
-          height: "600px",
-          width: "780px",
-        }}
-        id="viewerContainer"
-      ></div>
+    <div className="main-div">
+      <div className="div-view">
+        <div id="viewerContainer"></div>
+      </div>
       <div>
         <ItemsSelected
           allurn={allurn}
@@ -204,23 +209,6 @@ export const ForgeViewer = () => {
           func={func}
         />
       </div>
-      {/* <button
-        onClick={() => {
-          if (loaededViewer) {
-            // LoaededViewer.setGhosting(false);
-            isolateAndColorObject(loaededViewer, [
-              "5aa7c220-434e-47ec-966b-7aa35a5327a9-001c988b",
-              "5cd83cb7-08c9-4bb2-bf3a-523af6622a4f-000e9567",
-              "4845d7d6-c3ba-433c-9418-acbdb1ff7e5f-0011d9e2",
-              "7e6d9dcb-b26f-4e71-9eb2-3169d28411da-001e3370",
-            ]);
-            // abed.isolate(25005);
-            console.log("111111");
-          }
-        }}
-      >
-        Isolate
-      </button> */}
     </div>
   );
 };
@@ -297,3 +285,23 @@ export const ForgeViewer = () => {
 //     </>
 //   );
 // };
+
+{
+  /* <button
+        onClick={() => {
+          if (loaededViewer) {
+            // LoaededViewer.setGhosting(false);
+            isolateAndColorObject(loaededViewer, [
+              "5aa7c220-434e-47ec-966b-7aa35a5327a9-001c988b",
+              "5cd83cb7-08c9-4bb2-bf3a-523af6622a4f-000e9567",
+              "4845d7d6-c3ba-433c-9418-acbdb1ff7e5f-0011d9e2",
+              "7e6d9dcb-b26f-4e71-9eb2-3169d28411da-001e3370",
+            ]);
+            // abed.isolate(25005);
+            console.log("111111");
+          }
+        }}
+      >
+        Isolate
+      </button> */
+}

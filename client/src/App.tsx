@@ -4,23 +4,27 @@ import { ProjectItems } from "./components/projectItems/ProjectItems";
 import { PublishItems } from "./components/PublishItems";
 import { DataTable } from "./components/ProjectMetaData";
 import { PageNotFound } from "./components/PageNotFound";
-import { Home } from "./components/Home";
-import { NavBar } from "./components/navBar/NavBar";
+import { Home } from "./components/home/Home";
 
-import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ForgeViewer } from "./components/forgeViewer/ForgeViewer";
+import Navbar from "./components/navbar2/Navbar";
+import Test from "./components/test/Test";
 function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
+        <Navbar />
 
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/testing" exact component={Test} />
           <Route path="/project" exact>
             <Project />
           </Route>
           <Route path="/project/:id/:name" component={ProjectItems} />
+
           <Route path="/publish" component={PublishItems} />
           <Route
             path="/table/:id/items/:derivativesId"
@@ -28,7 +32,7 @@ function App() {
             component={DataTable}
           />
           <Route
-            path="/viewer/:id/items/3dViewer"
+            path="/viewer/:id/items/3dViewer*/"
             exact
             component={ForgeViewer}
           />

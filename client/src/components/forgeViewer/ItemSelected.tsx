@@ -1,3 +1,4 @@
+import zIndex from "@material-ui/core/styles/zIndex";
 import React from "react";
 
 export const ItemsSelected = ({
@@ -9,13 +10,11 @@ export const ItemsSelected = ({
 }: any) => {
   return (
     <>
-      {allurn.map((item: any, index: number) => (
-        <div key={item.urn} className="btn">
-          <p style={{ color: "blue", marginTop: "15px", fontWeight: "bold" }}>
-            {item.fileName}
-          </p>
-          <div>
-            <span>
+      <div className="top">
+        {allurn.map((item: any, index: number) => (
+          <div key={item.urn} className="btn">
+            <p style={{ zIndex: 1 }}>{item.fileName}</p>
+            <span style={{ zIndex: 1 }}>
               <button
                 style={
                   shouldIncrement[index]
@@ -31,8 +30,8 @@ export const ItemsSelected = ({
               </button>
             </span>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 };
