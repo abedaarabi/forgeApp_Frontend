@@ -41,6 +41,7 @@ export const PopUp = ({
           </div>
           <div className="footer">
             <button
+              className="item-button-agree"
               onClick={() => {
                 setApopUp(false);
                 publishItems(projectId, arrayOfItems);
@@ -52,6 +53,7 @@ export const PopUp = ({
             </button>
 
             <button
+              className="item-button-close"
               onClick={() => {
                 setApopUp(false);
               }}

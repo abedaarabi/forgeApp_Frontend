@@ -9,8 +9,6 @@ export const ItemsActions = ({
   projectId,
   setSelectedItems,
 }: any) => {
-  console.log("selectedItems", selectedItems, projectId);
-
   //State
   const [aPopUp, setApopUp] = React.useState(false);
   const [publishLoading, setPublishLoading] = React.useState(false);
@@ -42,6 +40,7 @@ export const ItemsActions = ({
           </li>
           <li>
             <button
+              className="item-button-publish"
               onClick={async () => {
                 setPublishLoading(false);
                 setApopUp(true);

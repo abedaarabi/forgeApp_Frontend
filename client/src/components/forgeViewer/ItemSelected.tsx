@@ -10,12 +10,12 @@ export const ItemsSelected = ({
 }: any) => {
   return (
     <>
-      <div className="top">
+      <div className="main-div-btn">
         {allurn.map((item: any, index: number) => (
           <div key={item.urn} className="btn">
-            <p style={{ zIndex: 1 }}>{item.fileName}</p>
+            <p className="file-name-onViewer" style={{ zIndex: 1 }}>{item.fileName}</p>
             <span style={{ zIndex: 1 }}>
-              <button
+              <button className="show-hide-button"
                 style={
                   shouldIncrement[index]
                     ? { backgroundColor: "green" }

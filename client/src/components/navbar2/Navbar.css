@@ -78,3 +78,8 @@
 span {
   margin-left: 16px;
 }
+.menu-bars {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+}

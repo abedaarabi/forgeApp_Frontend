@@ -32,7 +32,6 @@ export const ProjectList = ({
             if (item.publishStatus === "complete") {
               return (
                 <>
-                
                   <li key={item.derivativesId}>
                     <img src={revitLogo} alt="" />
                     <Checkbox
@@ -110,8 +109,12 @@ export const ProjectList = ({
                       />
                       <Spin size="small" style={{ marginBottom: "-20px" }} />
                     </div>
-
-                    <p style={{ color: "red", marginLeft: "10px" }}>
+                    <p
+                      style={{
+                        color: "red",
+                        marginLeft: "10px",
+                      }}
+                    >
                       {item.fileName}
                     </p>
                   </div>
