@@ -12,35 +12,37 @@ export const ModelColor = ({ allModels }: Model) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [color, setColor] = React.useState("" as string);
 
-  const funK = async () => {
-    const allLoadedViewers = await isolateAndColorObject(
+  const funK = () => {
+    const allLoadedViewers = isolateAndColorObject(
       allModels as Autodesk.Viewing.GuiViewer3D
     );
     if (allLoadedViewers && allModels) {
-      for await (const model of allLoadedViewers) {
-        model.search(
-          textColor,
-          (dbid) => {
-            let Ccolor = new THREE.Color(color);
-            let outputColor = new THREE.Vector4(
-              Ccolor.r,
-              Ccolor.g,
-              Ccolor.b,
-              1
-            );
-            if (dbid) setIsLoading(false);
-            allModels.isolate(dbid, model);
+      for (let model of allLoadedViewers) {
+        if (model) {
+          model.search(
+            textColor,
+            (dbid) => {
+              let Ccolor = new THREE.Color(color);
+              let outputColor = new THREE.Vector4(
+                Ccolor.r,
+                Ccolor.g,
+                Ccolor.b,
+                1
+              );
+              if (dbid) setIsLoading(false);
+              allModels.isolate(dbid, model);
 
-            dbid.forEach((id) => {
-              allModels.setThemingColor(id, outputColor, model);
-              allModels.fitToView(dbid);
-            });
-            allModels.setGhosting(true);
-          },
-          () => console.log("error"),
-          [],
-          { searchHidden: true }
-        );
+              dbid.forEach((id) => {
+                allModels.setThemingColor(id, outputColor, model);
+                allModels.fitToView(dbid);
+              });
+              allModels.setGhosting(true);
+            },
+            () => console.log("error"),
+            [],
+            { searchHidden: true }
+          );
+        }
       }
     }
   };

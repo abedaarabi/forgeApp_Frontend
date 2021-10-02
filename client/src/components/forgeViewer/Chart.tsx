@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Line, Bar } from "react-chartjs-2";
+import { getAllLeavesProperties } from "./helper/forgeViwerHelper";
 
 const testObj = {
   BIM7AATypeCode: {
@@ -53,31 +54,48 @@ const typeSorting = {
   },
 };
 
-export const Chart = () => {
-  const keys = Object.keys(testObj.BIM7AATypeCode);
-  const values = Object.values(testObj.BIM7AATypeCode);
-  const keysTypeSorting = Object.keys(typeSorting["Type Sorting"]);
-  const valuesTypeSorting = Object.values(typeSorting["Type Sorting"]);
+export const Chart = ({ allModels, data }: any) => {
+  const [tt, setTt] = React.useState("") as any;
+  const [rr, setrr] = React.useState("") as any;
 
-  const lineData = {
-    labels: keys,
+  // return;
 
-    datasets: [
-      {
-        label: "BIM7AATypeCode",
-        data: values,
-        backgroundColor: ["#42a4f5"],
-        hoverBackgroundColor: ["#424ef5"],
-      },
-    ],
+  const test = () => {
+    getAllLeavesProperties(allModels, (data: any[]) => {
+      console.log(data);
+
+      //@ts-ignore
+
+      if (data && data["Bar Diameter"]) {
+        try {
+          console.log("Fanny", data);
+          //@ts-ignore
+          const modelData = data["Bar Diameter"];
+          const label = Object.keys(modelData);
+          if (label) setTt(label);
+          //@ts-ignore
+          const myObject = Object.keys(data["Bar Diameter"]).map(
+            //@ts-ignore
+            (key) => data["Bar Diameter"][key].length
+          );
+          if (myObject) setrr(myObject);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+
+    console.log("hello");
+    console.log(tt, rr);
   };
+
   const barData = {
-    labels: keysTypeSorting,
+    labels: tt,
 
     datasets: [
       {
         label: "Type Sorting",
-        data: valuesTypeSorting,
+        data: rr,
         backgroundColor: ["#24b35a"],
         hoverBackgroundColor: ["#FFCE56"],
       },
@@ -85,9 +103,13 @@ export const Chart = () => {
   };
   return (
     <div>
-      <div>
-        <Line data={lineData} options={{ maintainAspectRatio: false }} />
-      </div>
+      <button
+        onClick={() => {
+          test();
+        }}
+      >
+        cilc
+      </button>
       <div>
         <Bar data={barData} />
       </div>
