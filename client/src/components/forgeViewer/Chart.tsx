@@ -1,100 +1,58 @@
+import "./forgeViewer.css";
+
+import { Spin } from "antd";
 import React from "react";
 
 import { Line, Bar } from "react-chartjs-2";
 import { getAllLeavesProperties } from "./helper/forgeViwerHelper";
 
-const testObj = {
-  BIM7AATypeCode: {
-    "5411": 18,
-    "5420": 23,
-    "5514": 5,
-    "5523": 24,
-    "5524": 5,
-    "5614": 9,
-    "5622": 6,
-    "5711": 2611,
-    "5712": 1116,
-    "5721": 14,
-    "5731": 86,
-    "5737": 108,
-    "5753": 7,
-    "5754": 62,
-    "5911": 626,
-    "5912": 2914,
-    "5914": 132,
-    "5915": 485,
-    "5933": 563,
-    "5941": 66,
-    "5971": 4,
-    "5980": 498,
-    NA: 18,
-  },
-};
+interface Model {
+  allModels: Autodesk.Viewing.GuiViewer3D | undefined;
+}
 
-const typeSorting = {
-  "Type Sorting": {
-    VSV: 108,
-    LYD: 71,
-    VSK: 2,
-    PEH: 381,
-    RSS: 3073,
-    ST: 291,
-    Cu: 427,
-    FZ: 135,
-    "BLS-VFL": 9,
-    "BLS-KFL": 5,
-    RAD: 6,
-    FC: 24,
-    AV: 91,
-    STRS: 2,
-    GA: 29,
-    HV: 3,
-    VU: 6,
-    VI: 23,
-  },
-};
-
-export const Chart = ({ allModels, data }: any) => {
+export const Chart = ({ allModels }: Model) => {
   const [tt, setTt] = React.useState("") as any;
   const [rr, setrr] = React.useState("") as any;
-
-  // return;
+  const [data, setSss] = React.useState(null) as any;
 
   const test = () => {
-    getAllLeavesProperties(allModels, (data: any[]) => {
-      console.log(data);
-
-      //@ts-ignore
-
-      if (data && data["Bar Diameter"]) {
-        try {
-          console.log("Fanny", data);
-          //@ts-ignore
-          const modelData = data["Bar Diameter"];
-          const label = Object.keys(modelData);
-          if (label) setTt(label);
-          //@ts-ignore
-          const myObject = Object.keys(data["Bar Diameter"]).map(
+    console.log("allModels", allModels);
+    if (!allModels) return;
+    else {
+      getAllLeavesProperties(allModels).then( (data: any) => {
+        //@ts-ignore
+        const BIM7AATypeComments = data["BIM7AATypeComments"];
+        if (BIM7AATypeComments) {
+          try {
             //@ts-ignore
-            (key) => data["Bar Diameter"][key].length
-          );
-          if (myObject) setrr(myObject);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    });
+            const modelData = data["BIM7AATypeComments"];
+            const label = Object.keys(modelData);
 
-    console.log("hello");
-    console.log(tt, rr);
+            console.log(label);
+            if (label) setTt(label);
+            //@ts-ignore
+            const myObject = Object.keys(data["BIM7AATypeComments"]).map(
+              //@ts-ignore
+              (key) => data["BIM7AATypeComments"][key].length
+            );
+            if (myObject) setrr(myObject);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+    }
   };
+
+  React.useEffect(() => {
+    test();
+  }, [allModels]);
 
   const barData = {
     labels: tt,
-
     datasets: [
       {
-        label: "Type Sorting",
+        label: "BIM7AATypeComments",
         data: rr,
         backgroundColor: ["#24b35a"],
         hoverBackgroundColor: ["#FFCE56"],
@@ -104,14 +62,15 @@ export const Chart = ({ allModels, data }: any) => {
   return (
     <div>
       <button
+        id="id-btn-green-showModelColor"
         onClick={() => {
           test();
         }}
       >
-        cilc
+        cilck
       </button>
       <div>
-        <Bar data={barData} />
+        <Bar data={barData} />{" "}
       </div>
     </div>
   );

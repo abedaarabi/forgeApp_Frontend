@@ -16,6 +16,7 @@ export const ModelColor = ({ allModels }: Model) => {
     const allLoadedViewers = isolateAndColorObject(
       allModels as Autodesk.Viewing.GuiViewer3D
     );
+
     if (allLoadedViewers && allModels) {
       for (let model of allLoadedViewers) {
         if (model) {

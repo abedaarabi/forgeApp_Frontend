@@ -26,7 +26,6 @@ export class ProjectController {
   @Get('/credentials')
   async token() {
     const credentials = await oAuth2();
-    console.log(credentials.access_token);
 
     return credentials.access_token;
   }

@@ -115,6 +115,7 @@ export const ForgeViewer = () => {
       console.log(ModelUrn);
     }
   };
+
   useEffect(() => {
     initializeViewer();
     return () => {};

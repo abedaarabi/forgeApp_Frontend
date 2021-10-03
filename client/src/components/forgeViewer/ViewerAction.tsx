@@ -3,7 +3,6 @@ import React from "react";
 import "./forgeViewer.css";
 import { ModelColor } from "./ModelColor";
 import { Chart } from "./Chart";
-// import { Chart } from "./Chart";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
