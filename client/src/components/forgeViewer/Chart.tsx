@@ -15,6 +15,7 @@ export const Chart = ({ allModels }: Model) => {
   const [eltLenght, setEltLength] = React.useState("") as any;
   const [showModel, setShowModel] = React.useState(false) as any;
   const [dataObject, setDataObject] = React.useState(null) as any;
+  const [paramValue, setParamValue] = React.useState("") as any;
 
   const test = () => {
     if (!allModels) return;
@@ -24,19 +25,19 @@ export const Chart = ({ allModels }: Model) => {
 
         setDataObject(data);
         //@ts-ignore
-        const BaseConstraint = data["BIM7AATypeCode"];
+        const BaseConstraint = data[paramValue];
 
         if (BaseConstraint) {
           try {
             //@ts-ignore
-            const modelData = data["BIM7AATypeCode"];
+            const modelData = data[paramValue];
             const label = Object.keys(modelData);
 
             if (label) setAlabel(label);
             //@ts-ignore
-            const countedElt = Object.keys(data["BIM7AATypeCode"]).map(
+            const countedElt = Object.keys(data[paramValue]).map(
               //@ts-ignore
-              (key) => data["BIM7AATypeCode"][key].length
+              (key) => data[paramValue][key].length
             );
             if (countedElt) setEltLength(countedElt);
           } catch (error) {
@@ -56,7 +57,7 @@ export const Chart = ({ allModels }: Model) => {
     labels: aLabel,
     datasets: [
       {
-        label: "BIM7AATypeCode",
+        label: paramValue,
         data: eltLenght,
         backgroundColor: ["#2c2c54"],
         hoverBackgroundColor: ["#ffb142"],
@@ -83,7 +84,7 @@ export const Chart = ({ allModels }: Model) => {
         if (!planKey) return;
         console.log(planKey);
 
-        const planDbIds = dataObject["BIM7AATypeCode"][planKey];
+        const planDbIds = dataObject[paramValue][planKey];
         console.log({ planKey, planDbIds });
         allModels.isolate(planDbIds);
         let Ccolor = new THREE.Color("#2c2c54");
@@ -107,6 +108,15 @@ export const Chart = ({ allModels }: Model) => {
         {chartModelBtn}
       </button>
       <div className="chart-pie-model">
+        <div className="chart-pie-model-input">
+          <input
+            type="text"
+            value={paramValue}
+            onChange={(e) => setParamValue(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="chart-pie-model-char">
         {showModel ? <Line options={options} data={barData} /> : null}
       </div>
     </div>

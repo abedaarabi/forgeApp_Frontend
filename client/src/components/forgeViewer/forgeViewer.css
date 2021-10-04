@@ -119,9 +119,20 @@ input {
 }
 
 .chart-pie-model {
-  height: 300px;
-  width: 300px;
+  height: 400px;
+  width: 400px;
   position: absolute;
   border-radius: 8px;
+  margin-left: -55px;
+}
+.chart-pie-model-input {
+  position: absolute;
+
+  margin-left: 50px;
+}
+
+.chart-pie-model-char {
+  position: absolute;
+  margin-top: 50px;
   margin-left: -55px;
 }
