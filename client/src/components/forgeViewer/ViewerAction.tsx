@@ -10,7 +10,7 @@ interface Model {
 export const ViewerAction = ({ allModels }: Model) => {
   const [showColorModel, setShowColorModel] = React.useState(false);
 
-  let btnShow = !showColorModel ? "show color model" : "hide color model";
+  let btnShow = !showColorModel ? "Show model color" : "Hide model color";
   let btnColor = !showColorModel
     ? "id-btn-green-showModelColor"
     : "id-btn-red-showModelColor";
@@ -29,10 +29,9 @@ export const ViewerAction = ({ allModels }: Model) => {
         </button>
         {showColorModel ? <ModelColor allModels={allModels} /> : ""}
       </div>
-      {/* <Chart /> */}
+
       <div>
         <Chart allModels={allModels} />
-        <div></div>
       </div>
     </div>
   );

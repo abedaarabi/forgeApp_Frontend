@@ -117,3 +117,11 @@ input {
 #id-btn-red-showModelColor {
   background-color: rgb(236, 46, 46);
 }
+
+.chart-pie-model {
+  height: 300px;
+  width: 300px;
+  position: absolute;
+  border-radius: 8px;
+  margin-left: -55px;
+}
