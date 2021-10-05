@@ -44,6 +44,7 @@ export const ForgeViewer = () => {
       ],
     });
     await viewer.start();
+
     setLoaededViewer(viewer);
 
     allurn.map((urn: any) => {
@@ -87,8 +88,8 @@ export const ForgeViewer = () => {
     Autodesk.Viewing.Initializer(viewerOptions, init);
   };
   /********************************* */
-  const func = async (item: string, index: number) => {
-    const allLoadedViewers = await isolateAndColorObject(
+  const func = (item: string, index: number) => {
+    const allLoadedViewers = isolateAndColorObject(
       loaededViewer as Autodesk.Viewing.GuiViewer3D
     );
     try {

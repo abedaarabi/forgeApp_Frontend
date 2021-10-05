@@ -128,11 +128,12 @@ input {
 .chart-pie-model-input {
   position: absolute;
 
-  margin-left: 50px;
+  margin-left: -10px;
 }
 
 .chart-pie-model-char {
   position: absolute;
   margin-top: 50px;
-  margin-left: -55px;
+  margin-left: -20px;
+  width: 600px;
 }
