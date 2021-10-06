@@ -66,24 +66,6 @@ export const Chart = ({ allModels }: Model) => {
         hoverBackgroundColor: ["#e85d4c"],
       },
     ],
-    scales: {
-      yAxes: [
-        {
-          gridLines: {
-            color: "cyan",
-          },
-          scaleLabel: {
-            labelString: paramValue,
-            display: true,
-            fontColor: "blue",
-            fontSize: 20,
-          },
-          ticks: {
-            fontColor: "green",
-          },
-        },
-      ],
-    },
   };
 
   const options = {

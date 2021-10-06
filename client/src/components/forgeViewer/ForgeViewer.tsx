@@ -29,9 +29,10 @@ export const ForgeViewer = () => {
       console.log(error);
     }
   }
-  const [shouldIncrement, changeShouldIncrement] = React.useState(
+  const [shouldIncrement, setShouldIncrement] = React.useState(
     newArr as boolean[]
   );
+
   const init = async () => {
     let viewer: Autodesk.Viewing.GuiViewer3D;
     const viewerContainer = document.getElementById("viewerContainer");
@@ -80,40 +81,48 @@ export const ForgeViewer = () => {
     const token = await getToken();
 
     const viewerOptions = {
-      env: "AutodeskProduction",
+      env: "FluentProduction",
+      api: "fluent",
       accessToken: token,
-      api: "derivativeV2",
     };
+
+    // const viewerOptions = {
+    //   env: "AutodeskProduction",
+    //   accessToken: token,
+    //   api: "derivativeV2",
+    // };
 
     Autodesk.Viewing.Initializer(viewerOptions, init);
   };
   /********************************* */
   const func = (item: string, index: number) => {
-    const allLoadedViewers = isolateAndColorObject(
-      loaededViewer as Autodesk.Viewing.GuiViewer3D
-    );
-    try {
-      const myNewCount = !shouldIncrement[index];
-      shouldIncrement[index] = myNewCount;
-      // after chaning the array do this to get a new array;
-      const newArray = [...shouldIncrement];
-      changeShouldIncrement(newArray);
-    } catch (error) {
-      console.log(error);
-    }
-    const ModelUrn = allLoadedViewers.filter((model) => {
-      //@ts-ignore
-      if (model.myData.urn === item.urn) {
-        return true;
-      }
-    });
+    if (loaededViewer) {
+      try {
+        const allLoadedViewers = isolateAndColorObject(
+          loaededViewer as Autodesk.Viewing.GuiViewer3D
+        );
 
-    if (shouldIncrement[index]) {
-      loaededViewer?.hideModel(ModelUrn[0]);
-      console.log(ModelUrn);
-    } else if (!shouldIncrement[index]) {
-      loaededViewer?.showModel(ModelUrn[0], true);
-      console.log(ModelUrn);
+        const myNewCount = !shouldIncrement[index];
+        shouldIncrement[index] = myNewCount;
+
+        const newArray = [...shouldIncrement];
+
+        setShouldIncrement(newArray);
+        const ModelUrn = allLoadedViewers.filter((model) => {
+          //@ts-ignore
+          if (model.myData.urn === item.urn) {
+            return true;
+          }
+        });
+
+        if (shouldIncrement[index]) {
+          loaededViewer.hideModel(ModelUrn[0]);
+        } else if (!shouldIncrement[index]) {
+          loaededViewer.showModel(ModelUrn[0], true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -121,6 +130,7 @@ export const ForgeViewer = () => {
     initializeViewer();
     return () => {};
   }, []);
+
   return (
     <div className="main-div">
       <div className="div-view">
@@ -130,7 +140,7 @@ export const ForgeViewer = () => {
         <ItemsSelected
           allurn={allurn}
           shouldIncrement={shouldIncrement}
-          changeShouldIncrement={changeShouldIncrement}
+          setShouldIncrement={setShouldIncrement}
           func={func}
         />
       </div>

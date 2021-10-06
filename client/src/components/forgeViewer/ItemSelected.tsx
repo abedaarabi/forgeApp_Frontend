@@ -4,29 +4,36 @@ import React from "react";
 export const ItemsSelected = ({
   allurn,
   shouldIncrement,
-  changeShouldIncrement,
+  setShouldIncrement,
 
   func,
 }: any) => {
+  const [stylying, setStyling] = React.useState([]) as any[];
+  let color: any;
   return (
     <>
       <div className="main-div-btn">
         {allurn.map((item: any, index: number) => (
           <div key={item.urn} className="btn">
-            <p className="file-name-onViewer" style={{ zIndex: 1 }}>{item.fileName}</p>
+            <p className="file-name-onViewer" style={{ zIndex: 1 }}>
+              {item.fileName}
+            </p>
             <span style={{ zIndex: 1 }}>
-              <button className="show-hide-button"
+              <button
+                className="show-hide-button"
                 style={
-                  shouldIncrement[index]
+                  stylying[index]
                     ? { backgroundColor: "green" }
                     : { backgroundColor: "crimson" }
                 }
-                onClick={async () => {
+                onClick={() => {
                   func(item, index);
-                  changeShouldIncrement(!shouldIncrement);
+                  setShouldIncrement(shouldIncrement);
+                  const newArray = [...shouldIncrement];
+                  setStyling(newArray);
                 }}
               >
-                {shouldIncrement[index] ? "Show" : "Hide"}
+                {stylying[index] ? "Show" : "Hide"}
               </button>
             </span>
           </div>
