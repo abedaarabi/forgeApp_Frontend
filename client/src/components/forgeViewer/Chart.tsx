@@ -75,24 +75,32 @@ export const Chart = ({ allModels }: Model) => {
 
     onClick: function (event: any, item: any[]) {
       if (allModels) {
-        const planKey = aLabel[item[0].index];
-        if (!planKey) {
-          return;
+        try {
+          const planKey = aLabel[item[0].index];
+          if (!planKey) {
+            return;
+          }
+          console.log(planKey);
+
+          const planDbIds = dataObject[paramValue][planKey];
+          if (!planDbIds) return;
+          console.log({ planKey, planDbIds });
+          allModels.isolate(planDbIds);
+          let Ccolor = new THREE.Color("#885078");
+          let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
+          console.log(planDbIds);
+
+          planDbIds.forEach((id: any) => {
+            try {
+              allModels.setThemingColor(id, outputColor);
+              allModels.fitToView(planDbIds);
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        } catch (error) {
+          console.log(error);
         }
-        console.log(planKey);
-
-        const planDbIds = dataObject[paramValue][planKey];
-        if (!planDbIds) return;
-        console.log({ planKey, planDbIds });
-        allModels.isolate(planDbIds);
-        let Ccolor = new THREE.Color("#885078");
-        let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
-        console.log(planDbIds);
-
-        planDbIds.forEach((id: any) => {
-          allModels.setThemingColor(id, outputColor);
-          allModels.fitToView(planDbIds);
-        });
       }
     },
   };

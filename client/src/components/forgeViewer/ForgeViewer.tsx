@@ -42,9 +42,14 @@ export const ForgeViewer = () => {
         "Autodesk.AEC.LevelsExtension",
         "Autodesk.AEC.Minimap3DExtension",
         "Autodesk.VisualClusters",
+
+        "Autodesk.Viewing.ZoomWindow",
       ],
     });
     await viewer.start();
+    viewer.setLightPreset(9);
+    viewer.setEnvMapBackground(false);
+    viewer.fitToView();
 
     setLoaededViewer(viewer);
 
@@ -79,18 +84,19 @@ export const ForgeViewer = () => {
   //initializeViewer
   const initializeViewer = async () => {
     const token = await getToken();
-
-    const viewerOptions = {
-      env: "FluentProduction",
-      api: "fluent",
-      accessToken: token,
-    };
-
+    //OTG
     // const viewerOptions = {
-    //   env: "AutodeskProduction",
+    //   env: "FluentProduction",
+    //   api: "fluent",
     //   accessToken: token,
-    //   api: "derivativeV2",
     // };
+
+    //https://forge.autodesk.com/en/docs/viewer/v7/change_history/changelog_v7/#id8
+    const viewerOptions = {
+      env: "AutodeskProduction2",
+      accessToken: token,
+      api: "streamingV2",
+    };
 
     Autodesk.Viewing.Initializer(viewerOptions, init);
   };

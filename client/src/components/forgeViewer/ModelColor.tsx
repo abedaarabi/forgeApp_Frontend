@@ -65,14 +65,30 @@ export const ModelColor = ({ allModels }: Model) => {
             onChange={(e) => setColor(e.target.value)}
           />
         </div>
-        <div>
+        <div className="model-change-element-color-btn">
           <button
             onClick={() => {
               funK();
               setIsLoading(true);
             }}
           >
-            Go
+            Set Color
+          </button>
+          <button
+            onClick={() => {
+              try {
+                const allLoadedViewers = isolateAndColorObject(
+                  allModels as Autodesk.Viewing.GuiViewer3D
+                );
+                allLoadedViewers.forEach((model) => {
+                  allModels?.clearThemingColors(model);
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            Clear Color
           </button>
           {isLoading ? <Spin size="large" /> : null}
         </div>
