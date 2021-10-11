@@ -65,7 +65,7 @@ export function DataTable() {
 
   const modelDerivative = async () => {
     try {
-      const ENDPOINT = `http://localhost:3050/projects/${id}/items/${derivativesId}`;
+      const ENDPOINT = `/projects/${id}/items/${derivativesId}`;
       const response = await fetch(ENDPOINT);
       setIsLoading(true);
       const data = await response.json();

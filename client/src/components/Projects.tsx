@@ -16,7 +16,7 @@ export const Project = () => {
 
   const getProject = async () => {
     try {
-      const ENDPOINT = "http://localhost:3050/projects";
+      const ENDPOINT = "/projects";
       // const ENDPOINT = "process.env.BACK_END_API/projects";
       const response = fetch(ENDPOINT);
       setIsLoading(true);
