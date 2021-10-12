@@ -18,7 +18,7 @@ export const flatten = <T>(arr: (T | (T | T[])[])[]) => {
 };
 
 export const getToken = async () => {
-  const url_base = "/projects/credentials";
+  const url_base = "http://localhost:9090/projects/credentials";
   const { data } = await axios.get(url_base);
 
   return data;

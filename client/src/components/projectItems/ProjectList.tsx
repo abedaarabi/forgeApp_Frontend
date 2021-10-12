@@ -1,9 +1,31 @@
-import { ItemDetails } from "../../../../server/src/interfaces/interface.item";
 import React from "react";
 import { Button, Checkbox, Spin } from "antd";
 import revitLogo from "./img/revit-logo.png";
 import ItemsActions from "./ItemsActions";
-
+interface ItemDetails {
+  publishStatus: string;
+  versionId: string;
+  fileName: string;
+  projectName: string;
+  projectId: string;
+  versionType: string;
+  derivativesId: string;
+  createUserName: string;
+  fileType: string;
+  createTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedUserName: string;
+  storageSize: number;
+  extension: string;
+  originalItemUrn: string;
+  projectGuid: string;
+  downloadItem: string;
+  name: string;
+  role: string;
+  guid: string;
+  translateStatus: string;
+  translateProgress: string;
+}
 interface arrayOfProject {
   items: ItemDetails[];
   loadingResponse: boolean;

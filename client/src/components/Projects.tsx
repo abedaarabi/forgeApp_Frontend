@@ -2,12 +2,13 @@ import * as React from "react";
 import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
 import "./SearchBar.css";
-//ignore
-
-import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
 
-import { TypeProject } from "../../../server/src/interfaces/interface.project";
+export interface TypeProject {
+  id: string;
+  name: string;
+  rootFolderId: string;
+}
 
 export const Project = () => {
   const [allProject, setAllProject] = React.useState([] as TypeProject[]);
@@ -16,7 +17,7 @@ export const Project = () => {
 
   const getProject = async () => {
     try {
-      const ENDPOINT = "/projects";
+      const ENDPOINT = "http://localhost:9090/projects";
       // const ENDPOINT = "process.env.BACK_END_API/projects";
       const response = fetch(ENDPOINT);
       setIsLoading(true);

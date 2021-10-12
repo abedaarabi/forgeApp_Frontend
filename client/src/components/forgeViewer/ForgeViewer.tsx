@@ -3,11 +3,33 @@ import "./forgeViewer.css";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ItemsSelected } from "./ItemSelected";
-import { ItemDetails } from "../../../../server/src/interfaces/interface.item";
 import { getToken, isolateAndColorObject } from "./helper/forgeViwerHelper";
 import { ViewerAction } from "./ViewerAction";
 import zIndex from "@material-ui/core/styles/zIndex";
-
+interface ItemDetails {
+  publishStatus: string;
+  versionId: string;
+  fileName: string;
+  projectName: string;
+  projectId: string;
+  versionType: string;
+  derivativesId: string;
+  createUserName: string;
+  fileType: string;
+  createTime: Date;
+  lastModifiedTime: Date;
+  lastModifiedUserName: string;
+  storageSize: number;
+  extension: string;
+  originalItemUrn: string;
+  projectGuid: string;
+  downloadItem: string;
+  name: string;
+  role: string;
+  guid: string;
+  translateStatus: string;
+  translateProgress: string;
+}
 export const ForgeViewer = () => {
   const [loaededViewer, setLoaededViewer] =
     React.useState<Autodesk.Viewing.GuiViewer3D>();
@@ -47,7 +69,7 @@ export const ForgeViewer = () => {
       ],
     });
     await viewer.start();
-    viewer.setLightPreset(9);
+    viewer.setLightPreset(3);
     viewer.setEnvMapBackground(false);
     viewer.fitToView();
 

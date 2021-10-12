@@ -5,7 +5,6 @@ import React from "react";
 
 import { Line, Bar, Doughnut, Pie } from "react-chartjs-2";
 import { getAllLeavesProperties } from "./helper/forgeViwerHelper";
-import { RenderList } from "../helper components/RenderList";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
