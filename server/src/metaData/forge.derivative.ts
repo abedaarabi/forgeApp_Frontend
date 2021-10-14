@@ -9,6 +9,7 @@ let arr: ItemDetails[] = [];
 
 export const metadata = async (allItems) => {
   const guid = new ForgeSDK.DerivativesApi();
+
   const credentials = await oAuth2();
 
   for await (const guidContent of allItems) {
@@ -42,7 +43,8 @@ export const metadata = async (allItems) => {
           Logger.log('Translate progress complete: ', guidContent.fileName);
           const uu = metaData.body.data.metadata as ItemDetails[];
           const roleInfo = uu.find((item) => {
-            if (item.role === '3d' && item.name === 'New Construction') {
+            //&& item.name === 'New Construction'
+            if (item.role === '3d') {
               return true;
             }
           });

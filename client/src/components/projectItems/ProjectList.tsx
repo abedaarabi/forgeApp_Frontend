@@ -40,6 +40,8 @@ export const ProjectList = ({
   const [selectedItems, setSelectedItems] = React.useState(
     {} as { [key: string]: ItemDetails }
   );
+  console.log(items);
+
   return (
     <div className="project-list">
       {loadingResponse ? (
@@ -51,6 +53,14 @@ export const ProjectList = ({
       ) : (
         <div className="project-list-items">
           {items.map((item) => {
+            if (!item) {
+              return (
+                <h3 style={{ backgroundColor: "red", color: "white" }}>
+                  contact abma@moe.dk | JHE@Moe.dk to add the project to the
+                  platform
+                </h3>
+              );
+            }
             if (item.publishStatus === "complete") {
               return (
                 <>
@@ -127,9 +137,9 @@ export const ProjectList = ({
                       <img
                         src={revitLogo}
                         alt=""
-                        style={{ marginBottom: "-15px" }}
+                        style={{ marginBottom: "5px" }}
                       />
-                      <Spin size="small" style={{ marginBottom: "-20px" }} />
+                      <Spin size="small" style={{ marginBottom: "-2px" }} />
                     </div>
                     <p
                       style={{
@@ -156,83 +166,3 @@ export const ProjectList = ({
     </div>
   );
 };
-
-// items.map((item) => {
-//   console.log(item);
-
-//   if (item.publishStatus === "complete") {
-//     return (
-//       <>
-//         <li key={item.derivativesId}>
-//           <img src={revitLogo} alt="" />
-//           <Checkbox
-//             checked={Boolean(selectedItems[item.derivativesId])}
-//             onChange={(e: any) => {
-//               const value = e.target.checked;
-//               if (value) {
-//                 const isChecked = {
-//                   ...selectedItems,
-//                   [item.derivativesId]: item,
-//                 };
-//                 // isChecked[item.derivativesId] = item;
-//                 setSelectedItems(isChecked);
-//               } else {
-//                 const isChecked = { ...selectedItems };
-//                 delete isChecked[item.derivativesId];
-//                 setSelectedItems(isChecked);
-//               }
-//             }}
-//           >
-//             {item.fileName}
-//           </Checkbox>
-//         </li>
-//       </>
-//     );
-//   }
-//   if (item.publishStatus === "Need to Publish") {
-//     return (
-//       <>
-//         <li key={item.derivativesId}>
-//           <img src={revitLogo} alt="" />
-//           <Checkbox
-//             checked={Boolean(selectedItems[item.derivativesId])}
-//             onChange={(e: any) => {
-//               const value = e.target.checked;
-//               if (value) {
-//                 const isChecked = {
-//                   ...selectedItems,
-//                   [item.derivativesId]: item,
-//                 };
-//                 // isChecked[item.derivativesId] = item;
-//                 setSelectedItems(isChecked);
-//               } else {
-//                 const isChecked = { ...selectedItems };
-//                 delete isChecked[item.derivativesId];
-//                 setSelectedItems(isChecked);
-//               }
-//             }}
-//           >
-//             <div>
-//               <p> {item.fileName}</p>
-//               <p style={{ color: "red" }}>need to publish</p>
-//             </div>
-//           </Checkbox>
-//         </li>
-//       </>
-//     );
-//   }
-//   if (item.publishStatus === "inprogress") {
-//     return (
-//       <>
-//         <li>
-//           <Button
-//             type="primary"
-//             loading
-//             style={{ background: "darkblue" }}
-//           ></Button>
-//           <p style={{ color: "red" }}>{item.fileName}</p>
-//         </li>
-//       </>
-//     );
-//   }
-// });

@@ -43,6 +43,7 @@ export const ProjectItems = () => {
       setIsLoading(true);
       const data = (await (await response).json()) as any;
       setIsLoading(false);
+   
 
       setallItems(data);
     } catch (error) {}
@@ -50,6 +51,7 @@ export const ProjectItems = () => {
 
   React.useEffect(() => {
     getProject();
+    return () => {};
   }, []);
 
   return (

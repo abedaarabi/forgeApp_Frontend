@@ -19,15 +19,11 @@ export interface AllItems {
 export const items = async (allProjects?) => {
   let allFolderContents: AllItems[] = [];
   let rr: Item[] = [];
-  // const credentials = await oAuth2();
-  // const hubs = await hub(credentials);
-  // const allProjects = await projects(hubs);
 
   try {
     for await (const item of allProjects) {
       const projectId = item.id;
       const projectName = item.name;
-      console.log(projectName);
 
       const folderId = item.rootFolderId;
       const items = await folderContent(projectId, folderId);

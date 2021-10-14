@@ -51,18 +51,26 @@ export const publishCloudWorkshared = async (allItems, isPublish: boolean) => {
       transalteStatus: x,
     });
   }
+  // console.log(arr);
 
   return arr.map((item) => {
-    let publishVerifyed: string;
+    try {
+      let publishVerifyed: string;
 
-    if (!item.publishModels.data && item.transalteProsses === 'complete') {
-      publishVerifyed = 'Need to Publish';
-    } else if (item.transalteProsses === 'complete') {
-      publishVerifyed = 'complete';
-    } else if (item.transalteStatus === 'inprogress') {
-      publishVerifyed = 'inprogress';
+      if (!item.publishModels.data && item.transalteProsses === 'complete') {
+        publishVerifyed = 'Need to Publish';
+      } else if (item.transalteProsses === 'complete') {
+        publishVerifyed = 'complete';
+      } else if (
+        item.transalteStatus === 'inprogress' ||
+        item.transalteStatus === 'pending'
+      ) {
+        publishVerifyed = 'inprogress';
+      }
+
+      return { ...item.itemInfo, publishStatus: publishVerifyed };
+    } catch (error) {
+      console.log(error);
     }
-
-    return { ...item.itemInfo, publishStatus: publishVerifyed };
   });
 };

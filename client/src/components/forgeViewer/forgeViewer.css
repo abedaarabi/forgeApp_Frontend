@@ -119,8 +119,8 @@ input {
 }
 
 .chart-pie-model {
-  height: 400px;
-  width: 400px;
+  /* height: 400px;
+  width: 400px; */
   position: absolute;
   border-radius: 8px;
   margin-left: -55px;

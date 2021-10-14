@@ -1,0 +1,26 @@
+version: "3.9" # optional since v1.27.0
+
+services:
+  forge-frontend:
+    build: client
+    command: npm start
+    volumes:
+      - /client
+      - /client/node_modules
+    ports:
+      - "8080:3000"
+    depends_on:
+      - forge-backend
+
+  forge-backend:
+    build: server
+    command: npm run start:dev
+    volumes:
+      - /server
+      - /server/node_modules
+    environment:
+      - API_ENDPOINT:https://developer.api.autodesk.com/
+      - CLIENT_ID:7KQ4vqb7uJFWgWYgNRnhE6T5ZDnbxPcn
+      - CLIENT_SECRET:GMgjs3ljOpfRLuMW,
+    ports:
+      - "9090:9090"

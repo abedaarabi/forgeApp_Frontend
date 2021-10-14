@@ -24,6 +24,7 @@ export const Chart = ({ allModels }: Model) => {
     if (!allModels) return;
     setModelIsLoadDone(allModels.isLoadDone());
     const allPrpsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
+    console.log(allPrpsMetaDAta);
 
     await setDataObject(allPrpsMetaDAta);
     setIsLoading(true);
@@ -63,14 +64,18 @@ export const Chart = ({ allModels }: Model) => {
         data: eltLenght,
         backgroundColor: ["#885078"],
         hoverBackgroundColor: ["#e85d4c"],
+
+        borderColor: "#885078",
+        borderWidth: 2,
       },
     ],
   };
 
   const options = {
-    responsive: false,
+    responsive: true,
     maintainAspectRatio: false,
     showLabelBackdrop: true,
+    backgroundColor: "gradient",
 
     onClick: function (event: any, item: any[]) {
       if (allModels) {
@@ -136,7 +141,12 @@ export const Chart = ({ allModels }: Model) => {
                   ))}
                 </select>
                 <div className="chart-pie-model-char">
-                  <Line options={options} data={barData} />
+                  <Line
+                    options={options}
+                    data={barData}
+                    height={250}
+                    width={500}
+                  />
                 </div>
               </div>
             )}

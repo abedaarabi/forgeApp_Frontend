@@ -21,7 +21,7 @@ export async function publishModel(
   } else {
     publishType = 'C4RModelPublish';
   }
-  console.log('start publish function');
+
   try {
     var userId = '4RL5NPRJ3LNM';
     const url = `https://developer.api.autodesk.com/data/v1/projects/${projectId}/commands`;
@@ -58,18 +58,9 @@ export async function publishModel(
         },
       }),
     });
-    // console.log('translate prosses: ', response.data);
-    console.log('#########', response.status);
-    return response.data;
-    // if (response.status === 403) {
-    //   userId = 'A4CZNLQVA864';
-    //   console.log('Abed');
 
-    //   break;
-    // } else if (response.data.status === 200) {
-    //   return response.data;
-    // }
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 }

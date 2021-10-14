@@ -26,7 +26,7 @@ interface ItemDetails {
 export const publishItems = async (id: string, arrayOfItems: ItemDetails[]) => {
   try {
     const response = await fetch(
-      `http://localhost:3050/projects/${id}/publish`,
+      `http://localhost:9090/projects/${id}/publish`,
       {
         method: "POST",
         headers: {
