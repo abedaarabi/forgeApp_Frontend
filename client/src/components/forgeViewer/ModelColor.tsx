@@ -36,7 +36,9 @@ export const ModelColor = ({ allModels }: Model) => {
               dbid.forEach((id) => {
                 allModels.setThemingColor(id, outputColor, model);
                 allModels.fitToView(dbid);
+                allModels.select(id);
               });
+
               allModels.setGhosting(true);
             },
             () => console.log("error"),
@@ -80,15 +82,20 @@ export const ModelColor = ({ allModels }: Model) => {
                 const allLoadedViewers = isolateAndColorObject(
                   allModels as Autodesk.Viewing.GuiViewer3D
                 );
-                allLoadedViewers.forEach((model) => {
-                  allModels?.clearThemingColors(model);
-                });
+                if (allModels) {
+                  allLoadedViewers.forEach((model) => {
+                    allModels.clearThemingColors(model);
+                    allModels.clearSelection();
+                    allModels.showAll();
+                    allModels.fitToView();
+                  });
+                }
               } catch (error) {
                 console.log(error);
               }
             }}
           >
-            Clear Color
+            Rest
           </button>
           {isLoading ? <Spin size="large" /> : null}
         </div>

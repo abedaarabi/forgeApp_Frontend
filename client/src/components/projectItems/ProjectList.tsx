@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Checkbox, Spin } from "antd";
+import { Checkbox, Spin } from "antd";
 import revitLogo from "./img/revit-logo.png";
 import ItemsActions from "./ItemsActions";
 interface ItemDetails {

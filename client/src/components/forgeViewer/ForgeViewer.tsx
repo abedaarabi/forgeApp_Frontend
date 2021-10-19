@@ -5,31 +5,8 @@ import { useLocation } from "react-router-dom";
 import { ItemsSelected } from "./ItemSelected";
 import { getToken, isolateAndColorObject } from "./helper/forgeViwerHelper";
 import { ViewerAction } from "./ViewerAction";
-import zIndex from "@material-ui/core/styles/zIndex";
-interface ItemDetails {
-  publishStatus: string;
-  versionId: string;
-  fileName: string;
-  projectName: string;
-  projectId: string;
-  versionType: string;
-  derivativesId: string;
-  createUserName: string;
-  fileType: string;
-  createTime: Date;
-  lastModifiedTime: Date;
-  lastModifiedUserName: string;
-  storageSize: number;
-  extension: string;
-  originalItemUrn: string;
-  projectGuid: string;
-  downloadItem: string;
-  name: string;
-  role: string;
-  guid: string;
-  translateStatus: string;
-  translateProgress: string;
-}
+import { ItemDetails } from "../../interfaces/ItemDetails";
+
 export const ForgeViewer = () => {
   const [loaededViewer, setLoaededViewer] =
     React.useState<Autodesk.Viewing.GuiViewer3D>();
@@ -40,7 +17,7 @@ export const ForgeViewer = () => {
   const selected3dModels = location.state as ItemDetails[];
   if (selected3dModels) {
     try {
-      selected3dModels.map((model) => {
+      selected3dModels.forEach((model) => {
         const urn = model.derivativesId;
         const xform = { x: 0, y: 0, z: -50 };
         const fileName = model.fileName;
@@ -69,13 +46,13 @@ export const ForgeViewer = () => {
       ],
     });
     await viewer.start();
-    viewer.setLightPreset(0);
+    viewer.setLightPreset(1);
     viewer.setEnvMapBackground(false);
     viewer.fitToView();
 
     setLoaededViewer(viewer);
 
-    allurn.map((urn: any) => {
+    allurn.forEach((urn: any) => {
       var documentId = "urn:" + urn.urn;
       Autodesk.Viewing.Document.load(
         documentId,
@@ -88,7 +65,10 @@ export const ForgeViewer = () => {
             placementTransform: new THREE.Matrix4().setPosition(urn.xform),
             globalOffset: { x: 0, y: 0, z: 0 },
           });
-
+          viewer.loadExtension("NestedViewerExtension", {
+            filter: ["2d", "3d"],
+            crossSelection: true,
+          });
           viewer.addEventListener(
             Autodesk.Viewing.TEXTURES_LOADED_EVENT,
             () => {
@@ -138,9 +118,7 @@ export const ForgeViewer = () => {
         setShouldIncrement(newArray);
         const ModelUrn = allLoadedViewers.filter((model) => {
           //@ts-ignore
-          if (model.myData.urn === item.urn) {
-            return true;
-          }
+          return model.myData.urn === item.urn;
         });
 
         if (shouldIncrement[index]) {
@@ -156,7 +134,6 @@ export const ForgeViewer = () => {
 
   useEffect(() => {
     initializeViewer();
-    return () => {};
   }, []);
 
   return (

@@ -128,14 +128,13 @@ input {
 .chart-pie-model-input {
   position: absolute;
 
-  margin-left: -10px;
+  margin-left: -70px;
 }
 
 .chart-pie-model-char {
   position: absolute;
-  margin-top: 50px;
-  margin-left: -20px;
-  width: 600px;
+
+  /* margin-left: -10px; */
 }
 
 .model-change-element-color-btn {
@@ -143,4 +142,20 @@ input {
   display: flex;
   margin-left: -40px;
   margin-top: 10px;
+}
+
+.chart-pie-model-select {
+  height: 30px;
+  margin-top: 7px;
+  margin-left: 20px;
+  position: absolute;
+  border-radius: 5px;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+.chart-pie-model-typesorting {
+  position: absolute;
+  margin-left: -60px;
+  margin-top: 30px;
 }

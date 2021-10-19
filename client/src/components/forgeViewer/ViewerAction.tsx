@@ -2,7 +2,8 @@ import React from "react";
 
 import "./forgeViewer.css";
 import { ModelColor } from "./ModelColor";
-import { Chart } from "./Chart";
+import { Chart } from "./charts/Chart";
+import { TypeSortingChart } from "./charts/TypeSortingChart";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
@@ -32,6 +33,9 @@ export const ViewerAction = ({ allModels }: Model) => {
 
       <div>
         <Chart allModels={allModels} />
+      </div>
+      <div>
+        <TypeSortingChart allModels={allModels} />
       </div>
     </div>
   );

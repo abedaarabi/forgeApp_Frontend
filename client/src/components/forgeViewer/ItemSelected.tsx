@@ -1,4 +1,3 @@
-import zIndex from "@material-ui/core/styles/zIndex";
 import React from "react";
 
 export const ItemsSelected = ({
@@ -9,7 +8,7 @@ export const ItemsSelected = ({
   func,
 }: any) => {
   const [stylying, setStyling] = React.useState([]) as any[];
-  let color: any;
+  // let color: any;
   return (
     <>
       <div className="main-div-btn">

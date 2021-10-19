@@ -4,31 +4,7 @@ import fetch from "node-fetch";
 
 import { useParams } from "react-router-dom";
 import { ProjectList } from "./ProjectList";
-
-interface ItemDetails {
-  publishStatus: string;
-  versionId: string;
-  fileName: string;
-  projectName: string;
-  projectId: string;
-  versionType: string;
-  derivativesId: string;
-  createUserName: string;
-  fileType: string;
-  createTime: Date;
-  lastModifiedTime: Date;
-  lastModifiedUserName: string;
-  storageSize: number;
-  extension: string;
-  originalItemUrn: string;
-  projectGuid: string;
-  downloadItem: string;
-  name: string;
-  role: string;
-  guid: string;
-  translateStatus: string;
-  translateProgress: string;
-}
+import { ItemDetails } from "../../interfaces/ItemDetails";
 
 export const ProjectItems = () => {
   const [allItems, setallItems] = React.useState([] as ItemDetails[]);
@@ -43,7 +19,6 @@ export const ProjectItems = () => {
       setIsLoading(true);
       const data = (await (await response).json()) as any;
       setIsLoading(false);
-   
 
       setallItems(data);
     } catch (error) {}

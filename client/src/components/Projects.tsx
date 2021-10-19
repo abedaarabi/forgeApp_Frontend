@@ -2,7 +2,7 @@ import * as React from "react";
 import { LinearProgress } from "@material-ui/core";
 import fetch from "node-fetch";
 import "./SearchBar.css";
-import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export interface TypeProject {
   id: string;

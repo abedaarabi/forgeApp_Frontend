@@ -1,10 +1,6 @@
 import React from "react";
 import "./popUP.css";
-type PopUp = {
-  tricker: boolean;
-  close(a: boolean): void;
-  children?: JSX.Element[];
-};
+
 
 export const PopUp = ({
   tricker,

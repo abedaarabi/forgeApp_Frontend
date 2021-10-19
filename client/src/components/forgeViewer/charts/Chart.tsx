@@ -1,10 +1,10 @@
-import "./forgeViewer.css";
-
+import ".././forgeViewer.css";
+// Bar, Doughnut, Pie
 import { Spin } from "antd";
 import React from "react";
 
-import { Line, Bar, Doughnut, Pie } from "react-chartjs-2";
-import { getAllLeavesProperties } from "./helper/forgeViwerHelper";
+import { Line } from "react-chartjs-2";
+import { getAllLeavesProperties } from "../helper/forgeViwerHelper";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
@@ -19,25 +19,26 @@ export const Chart = ({ allModels }: Model) => {
   const [paramValue, setParamValue] = React.useState("") as any;
   const [modelIsLoadDone, setModelIsLoadDone] = React.useState(null) as any;
   const [allProps, setAllProps] = React.useState([] as string[]);
+  const [color, setColor] = React.useState("#885078" as string);
 
   const getAllProps = async () => {
     if (!allModels) return;
     setModelIsLoadDone(allModels.isLoadDone());
-    const allPrpsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
-    console.log(allPrpsMetaDAta);
+    const allPropsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
+    console.log(allPropsMetaDAta);
 
-    await setDataObject(allPrpsMetaDAta);
+    await setDataObject(allPropsMetaDAta);
     setIsLoading(true);
-    setAllProps(Object.keys(allPrpsMetaDAta));
+    setAllProps(Object.keys(allPropsMetaDAta));
     setIsLoading(false);
-    const BaseConstraint = allPrpsMetaDAta[paramValue];
+    const BaseConstraint = allPropsMetaDAta[paramValue];
     if (BaseConstraint) {
       try {
-        const modelData = allPrpsMetaDAta[paramValue];
+        const modelData = allPropsMetaDAta[paramValue];
         const label = Object.keys(modelData);
         if (label) setAlabel(label);
-        const countedElt = Object.keys(allPrpsMetaDAta[paramValue]).map(
-          (key) => allPrpsMetaDAta[paramValue][key].length
+        const countedElt = Object.keys(allPropsMetaDAta[paramValue]).map(
+          (key) => allPropsMetaDAta[paramValue][key].length
         );
         if (countedElt) {
         }
@@ -62,10 +63,10 @@ export const Chart = ({ allModels }: Model) => {
       {
         label: paramValue,
         data: eltLenght,
-        backgroundColor: ["#885078"],
+        backgroundColor: color,
         hoverBackgroundColor: ["#e85d4c"],
 
-        borderColor: "#885078",
+        borderColor: color,
         borderWidth: 2,
       },
     ],
@@ -81,30 +82,22 @@ export const Chart = ({ allModels }: Model) => {
       if (allModels) {
         try {
           const planKey = aLabel[item[0].index];
-          if (!planKey) {
-            return;
-          }
-          console.log(planKey);
+          if (!planKey) return;
 
           const planDbIds = dataObject[paramValue][planKey];
           if (!planDbIds) return;
-          console.log({ planKey, planDbIds });
           allModels.isolate(planDbIds);
-          let Ccolor = new THREE.Color("#885078");
-          let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
-          console.log(planDbIds);
 
+          let Ccolor = new THREE.Color(color);
+          let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
           planDbIds.forEach((id: any) => {
             try {
               allModels.setThemingColor(id, outputColor);
               allModels.fitToView(planDbIds);
-            } catch (error) {
-              console.log(error);
-            }
+              // allModels.select(planDbIds);
+            } catch (error) {}
           });
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     },
   };
@@ -128,7 +121,13 @@ export const Chart = ({ allModels }: Model) => {
               <Spin size="large" />
             ) : (
               <div>
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                />
                 <select
+                  className="chart-pie-model-select"
                   onChange={(e) => {
                     setParamValue(e.target.value);
                   }}

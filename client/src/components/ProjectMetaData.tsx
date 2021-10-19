@@ -1,8 +1,8 @@
 import * as React from "react";
-import { DataGrid } from "@material-ui/data-grid";
-import { Link, useParams, useLocation } from "react-router-dom";
+
+import { useParams, useLocation } from "react-router-dom";
 import "antd/dist/antd.css";
-import { Table, Tag, Space } from "antd";
+import { Table } from "antd";
 
 import "./SearchBar.css";
 export type ElementProperties = {
@@ -79,7 +79,6 @@ export function DataTable() {
   React.useEffect(() => {
     modelDerivative();
   }, []);
-  console.log(elementData);
 
   return (
     <div>

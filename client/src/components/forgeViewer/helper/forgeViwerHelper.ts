@@ -40,9 +40,9 @@ export function isolateAndColorObject(viewer: Autodesk.Viewing.GuiViewer3D) {
 }
 
 //Get Leavs Props
-interface Histogram {
-  [key: string]: any;
-}
+// interface Histogram {
+//   [key: string]: any;
+// }
 
 //Get All Leavs Props
 export const getAllLeavesProperties = (
