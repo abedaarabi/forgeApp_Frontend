@@ -4,7 +4,10 @@ import { Spin } from "antd";
 import React from "react";
 
 import { Line } from "react-chartjs-2";
-import { getAllLeavesProperties } from "../helper/forgeViwerHelper";
+import {
+  getAllLeavesProperties,
+  isolateAndColorObject,
+} from "../helper/forgeViwerHelper";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
@@ -80,24 +83,34 @@ export const Chart = ({ allModels }: Model) => {
 
     onClick: function (event: any, item: any[]) {
       if (allModels) {
-        try {
-          const planKey = aLabel[item[0].index];
-          if (!planKey) return;
+        const allLoadedViewers = isolateAndColorObject(
+          allModels as Autodesk.Viewing.GuiViewer3D
+        );
+        allLoadedViewers.forEach((model) => {
+          try {
+            const planKey = aLabel[item[0].index];
+            if (!planKey) return;
 
-          const planDbIds = dataObject[paramValue][planKey];
-          if (!planDbIds) return;
-          allModels.isolate(planDbIds);
+            const planDbIds = dataObject[paramValue][planKey];
+            if (!planDbIds) return;
+            allModels.isolate(planDbIds, model);
 
-          let Ccolor = new THREE.Color(color);
-          let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
-          planDbIds.forEach((id: any) => {
-            try {
-              allModels.setThemingColor(id, outputColor);
-              allModels.fitToView(planDbIds);
-              // allModels.select(planDbIds);
-            } catch (error) {}
-          });
-        } catch (error) {}
+            let Ccolor = new THREE.Color(color);
+            let outputColor = new THREE.Vector4(
+              Ccolor.r,
+              Ccolor.g,
+              Ccolor.b,
+              1
+            );
+            planDbIds.forEach((id: any) => {
+              try {
+                allModels.setThemingColor(id, outputColor, model);
+                allModels.fitToView(planDbIds);
+                // allModels.select(planDbIds);
+              } catch (error) {}
+            });
+          } catch (error) {}
+        });
       }
     },
   };
@@ -118,7 +131,7 @@ export const Chart = ({ allModels }: Model) => {
         {showModel ? (
           <div className="chart-pie-model-input">
             {isLoading ? (
-              <Spin size="large" />
+              <Spin size="small" className="model-spin-chart" />
             ) : (
               <div>
                 <input

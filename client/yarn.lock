@@ -1843,10 +1843,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/forge-viewer@^7.48.0":
-  "integrity" "sha512-uKJFqKYQgN3PPe+b50c6c6fmPedO0kUZapPKPBjRvUZAS8tEz8biqtFSu1bLymsSVmQfCSc2wdxvDXz6v6BIQg=="
-  "resolved" "https://registry.npmjs.org/@types/forge-viewer/-/forge-viewer-7.48.0.tgz"
-  "version" "7.48.0"
+"@types/forge-viewer@^7.53.0":
+  "integrity" "sha512-Ohm4eXLUKN8nIUXH5sQmyMvaFGw7t6Vlyx407ECK9wIQg8pO8yK+YTVVbbR9jhS8/WRsc1X5BVLmYppurMsR4A=="
+  "resolved" "https://registry.npmjs.org/@types/forge-viewer/-/forge-viewer-7.53.0.tgz"
+  "version" "7.53.0"
 
 "@types/glob@^7.1.1":
   "integrity" "sha512-w+LsMxKyYQm347Otw+IfBXOv9UWVjpHpCDdbBMt8Kz/xbvCYNjP+0qPh91Km3iKfSRLBB0P7fAMf0KHrPu+MyA=="

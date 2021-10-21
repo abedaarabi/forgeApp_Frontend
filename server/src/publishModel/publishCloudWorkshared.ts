@@ -56,8 +56,10 @@ export const publishCloudWorkshared = async (allItems, isPublish: boolean) => {
   return arr.map((item) => {
     try {
       let publishVerifyed: string;
-
-      if (!item.publishModels.data && item.transalteProsses === 'complete') {
+      // console.log(item.publishModels.data);
+      console.log(item.transalteStatus);
+      //&& item.transalteProsses === 'complete'
+      if (!item.publishModels.data) {
         publishVerifyed = 'Need to Publish';
       } else if (item.transalteProsses === 'complete') {
         publishVerifyed = 'complete';

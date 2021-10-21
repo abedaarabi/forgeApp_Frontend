@@ -2,10 +2,14 @@ import React from "react";
 import ".././forgeViewer.css";
 // Bar, Doughnut, Pie
 import { Doughnut, Bar, Pie } from "react-chartjs-2";
-import { getAllLeavesProperties } from "../helper/forgeViwerHelper";
+import {
+  getAllLeavesProperties,
+  isolateAndColorObject,
+} from "../helper/forgeViwerHelper";
 
 import { accTypeSorting } from "../helper/acceptedTypeSortingValues";
 import { getcomplinceValues } from "../helper/chart.helper";
+import { Spin } from "antd";
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
 }
@@ -13,6 +17,7 @@ interface Model {
 export const TypeSortingChart = ({ allModels }: Model) => {
   /****** States ******/
   const [modelIsLoadDone, setModelIsLoadDone] = React.useState(null) as any;
+  const [isLoading, setIsLoading] = React.useState(true);
   let [elementColor, setElementColor] = React.useState("") as any;
   const [acceptedTypeSorting, setAcceptedTypeSorting] = React.useState(
     null
@@ -30,14 +35,15 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       /**Helper Function to get accepted values */
       getcomplinceValues(TypeSorting, accTypeSorting, (data: any) => {
         if (!data) return;
+        setIsLoading(true);
         setAcceptedTypeSorting(data.arrAcceptedValues);
         setIsNotTypeSorting(data.notArrAcceptedValues);
+        setIsLoading(false);
       });
     } catch (error) {
       console.log(error);
     }
   };
-  console.log({ acceptedTypeSorting, isNotTypeSorting });
 
   React.useEffect(() => {
     getModelValues();
@@ -68,34 +74,47 @@ export const TypeSortingChart = ({ allModels }: Model) => {
 
     onClick: function (event: any, item: any[]) {
       if (allModels) {
-        try {
-          if (!acceptedTypeSorting && isNotTypeSorting) return;
-          const planKey = [acceptedTypeSorting, isNotTypeSorting][
-            item[0].index
-          ];
-          if (!planKey) return;
-          console.log({ planKey });
-          console.log(item[0].index);
-          if (item[0].index === 0) {
-            setElementColor("#3CB371");
-          } else {
-            setElementColor("#FF0000");
-          }
-          allModels.isolate(planKey[0]);
-          let Ccolor = new THREE.Color(elementColor);
-          let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b, 1);
-          planKey[0].forEach((id: any) => {
-            try {
-              allModels.setThemingColor(id, outputColor);
-              allModels.fitToView(planKey[0]);
-              // allModels.select(planDbIds);
-            } catch (error) {
-              console.log(error);
+        const allLoadedViewers = isolateAndColorObject(
+          allModels as Autodesk.Viewing.GuiViewer3D
+        );
+
+        allLoadedViewers.forEach((model) => {
+          try {
+            if (!acceptedTypeSorting && isNotTypeSorting) return;
+            const planKey = [acceptedTypeSorting, isNotTypeSorting][
+              item[0].index
+            ];
+            if (!planKey) return;
+            if (item[0].index === 0) {
+              setElementColor("#3CB371");
+            } else {
+              setElementColor("#FF0000");
             }
-          });
-        } catch (error) {
-          console.log(error);
-        }
+
+            let Ccolor = new THREE.Color(elementColor);
+            let outputColor = new THREE.Vector4(
+              Ccolor.r,
+              Ccolor.g,
+              Ccolor.b,
+              1
+            );
+
+            if (planKey) {
+              allModels.isolate(planKey.flat(), model);
+              planKey.flat().forEach((id: any) => {
+                try {
+                  allModels.setThemingColor(id, outputColor, model);
+                  allModels.fitToView(planKey.flat());
+                  // allModels.select(planDbIds);
+                } catch (error) {
+                  console.log(error);
+                }
+              });
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        });
       }
     },
   };
@@ -111,15 +130,21 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       >
         {chartModelBtn}
       </button>
-      <div className="chart-pie-model-typesorting">
+      <div>
         {showModel ? (
-          <div>
-            <Doughnut
-              data={barData}
-              options={options}
-              height={250}
-              width={300}
-            />
+          <div className="chart-pie-model-typesorting">
+            {isLoading ? (
+              <Spin size="small" className="model-spin" />
+            ) : (
+              <div>
+                <Doughnut
+                  data={barData}
+                  options={options}
+                  height={250}
+                  width={300}
+                />
+              </div>
+            )}
           </div>
         ) : (
           ""
