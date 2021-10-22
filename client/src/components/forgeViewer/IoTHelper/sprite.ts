@@ -2,7 +2,6 @@ export async function sprites(viewer: Autodesk.Viewing.GuiViewer3D) {
   // Load 'Autodesk.DataVisualization' and store it as a variable for later use
   const dataVizExtn = await viewer.loadExtension("Autodesk.DataVisualization");
   const DataVizCore = Autodesk.DataVisualization.Core;
-  console.log("abed", { DataVizCore });
 
   const viewableType = DataVizCore.ViewableType.SPRITE;
   const spriteColor = new THREE.Color("red");
@@ -52,4 +51,15 @@ export async function sprites(viewer: Autodesk.Viewing.GuiViewer3D) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export function getCore(viewer: Autodesk.Viewing.GuiViewer3D) {
+  return new Promise(async (resolve, reject) => {
+    const dataVizExtn = await viewer.loadExtension(
+      "Autodesk.DataVisualization"
+    );
+    const DataVizCore = Autodesk.DataVisualization.Core;
+
+    resolve(DataVizCore);
+  });
 }
