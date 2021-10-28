@@ -6,35 +6,25 @@
   align-items: center;
   flex-direction: column;
   margin-top: 50px;
-  animation-name: example;
+
   animation-duration: 4s;
   animation-delay: 2s;
 }
 
-@keyframes example {
-  0% {
-    background-color: rgb(165, 155, 155);
-    left: 0px;
-    top: 100px;
-  }
-  25% {
-    background-color: rgb(211, 211, 77);
-    left: 200px;
-    top: 0px;
-  }
-  50% {
-    background-color: rgb(96, 163, 218);
-    left: 200px;
-  }
-  75% {
-    background-color: rgb(83, 204, 83);
-    left: 0px;
-  }
-  100% {
-    background-color: rgb(218, 86, 86);
-    left: 0px;
-    top: 100px;
-  }
+.home-main-div-link {
+  height: 40px;
+  width: 150px;
+  margin-top: 60px;
+
+  background-color: rgb(255, 255, 255);
+  font-size: large;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.home-main-div-link p {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
 .home-main-div h1 {
   color: rgb(90, 89, 89);
