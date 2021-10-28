@@ -29,7 +29,6 @@
 }
 
 button:active {
-  box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
 
@@ -56,13 +55,13 @@ button:active {
 }
 
 .isolate-element button {
-  width: 150px;
+  width: 100px;
   height: 30px;
   margin: 10px;
   border: none;
   color: white;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 10px;
   cursor: pointer;
 }
 .viewer-Action-color {
@@ -167,4 +166,22 @@ input {
 .model-spin-chart {
   margin-top: -70px;
   margin-left: 40px;
+}
+
+.viewer-iot-chart {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-left: 900px;
+  margin-top: -250px;
+}
+.viewer-iot-chart-btn-show {
+  background-color: rgb(16, 88, 55);
+  height: 30px;
+  width: 30px;
+}
+.viewer-iot-chart-btn-rmv {
+  background-color: rgb(212, 54, 62);
+  height: 30px;
+  width: 30px;
 }

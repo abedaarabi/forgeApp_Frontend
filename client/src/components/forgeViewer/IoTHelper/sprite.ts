@@ -1,4 +1,18 @@
-export async function sprites(viewer: Autodesk.Viewing.GuiViewer3D) {
+interface Sprite {
+  viewer: Autodesk.Viewing.GuiViewer3D;
+  pX: number;
+  pY: number;
+  pZ: number;
+  elementId: number;
+}
+
+export async function sprites(
+  viewer: Autodesk.Viewing.GuiViewer3D,
+  pX: number,
+  pY: number,
+  pZ: number,
+  elementId: number
+) {
   // Load 'Autodesk.DataVisualization' and store it as a variable for later use
   const dataVizExtn = await viewer.loadExtension("Autodesk.DataVisualization");
   const DataVizCore = Autodesk.DataVisualization.Core;
@@ -19,12 +33,12 @@ export async function sprites(viewer: Autodesk.Viewing.GuiViewer3D) {
   viewableData.spriteSize = 24;
 
   const myDataList = [
-    { position: { x: -12, y: -30, z: 40 } },
-    // { position: { x: 20, y: 22, z: 3 } },
+    // { position: { x: -12, y: -30, z: 40 } },
+    { position: { x: pX, y: pY, z: pZ } },
   ];
 
   myDataList.forEach((myData, index) => {
-    const dbId = 20560;
+    const dbId = elementId;
     const position = myData.position;
     const viewable = new DataVizCore.SpriteViewable(
       position as any,
@@ -36,16 +50,22 @@ export async function sprites(viewer: Autodesk.Viewing.GuiViewer3D) {
   });
   await viewableData.finish();
 
-  const uuid =
+  const uuidSt =
     "dXJuOmFkc2sud2lwcHJvZDpmcy5maWxlOnZmLk0wbDJyV3BmUW1HUTZQdGYweVRQeFE_dmVyc2lvbj0z";
+  const uuidMep =
+    "dXJuOmFkc2sud2lwcHJvZDpmcy5maWxlOnZmLm1GNy1jNXBsUnY2TXVuTWtlU090LVE_dmVyc2lvbj0yNg";
   try {
     viewer.getAllModels().map((model) => {
-      //@ts-ignore
-      if (model.myData.acmSessionId === uuid) {
+      if (
+        //@ts-ignore
+        model.myData.acmSessionId === uuidSt ||
+        //@ts-ignore
+        model.myData.acmSessionId === uuidMep
+      ) {
         //@ts-ignore
         dataVizExtn.addViewables(viewableData);
       } else {
-        alert("model does not have IoT device");
+        alert("Model does not have IoT sensor");
       }
     });
   } catch (error) {

@@ -1,13 +1,51 @@
 .home-main-div {
+  width: 600px;
+  position: absolute;
   display: flex;
-  justify-content: center;
+  margin-left: 450px;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-delay: 2s;
+}
+
+@keyframes example {
+  0% {
+    background-color: rgb(165, 155, 155);
+    left: 0px;
+    top: 100px;
+  }
+  25% {
+    background-color: rgb(211, 211, 77);
+    left: 200px;
+    top: 0px;
+  }
+  50% {
+    background-color: rgb(96, 163, 218);
+    left: 200px;
+  }
+  75% {
+    background-color: rgb(83, 204, 83);
+    left: 0px;
+  }
+  100% {
+    background-color: rgb(218, 86, 86);
+    left: 0px;
+    top: 100px;
+  }
 }
 .home-main-div h1 {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(39, 167, 23);
-  color: white;
-  width: 300px;
-  margin-top: 200px;
+  color: rgb(90, 89, 89);
+  width: auto;
+  text-transform: capitalize;
+
   border-radius: 10px;
+}
+.home-main-div .moe250 {
+  color: rgb(39, 167, 23);
+}
+.home-main-div h3 {
+  color: rgb(204, 89, 35);
 }

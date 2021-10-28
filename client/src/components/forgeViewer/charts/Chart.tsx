@@ -73,7 +73,7 @@ export const Chart = ({ allModels }: Model) => {
         borderWidth: 2,
       },
     ],
-  };
+  } as any;
 
   const options = {
     responsive: true,
@@ -157,7 +157,7 @@ export const Chart = ({ allModels }: Model) => {
                     options={options}
                     data={barData}
                     height={250}
-                    width={500}
+                    width={400}
                   />
                 </div>
               </div>

@@ -3469,10 +3469,20 @@
   "resolved" "https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz"
   "version" "1.0.2"
 
-"chart.js@^3.5.0", "chart.js@^3.5.1":
-  "integrity" "sha512-m5kzt72I1WQ9LILwQC4syla/LD/N413RYv2Dx2nnTkRS9iv/ey1xLTt0DnPc/eWV4zI+BgEgDYBIzbQhZHc/PQ=="
-  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.5.1.tgz"
-  "version" "3.5.1"
+"chart.js@^3.0.0", "chart.js@^3.5.0", "chart.js@^3.6.0":
+  "integrity" "sha512-iOzzDKePL+bj+ccIsVAgWQehCXv8xOKGbaU2fO/myivH736zcx535PGJzQGanvcSGVOqX6yuLZsN3ygcQ35UgQ=="
+  "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.6.0.tgz"
+  "version" "3.6.0"
+
+"chartjs-adapter-luxon@^1.1.0":
+  "integrity" "sha512-CS+xBWEyXYVLBZ3dSY/MwlSXhz8er4JjkApazY84ft/++oOLsmkt6TaXBCsUFudum7QdoYmpxiL/gSp20+emkw=="
+  "resolved" "https://registry.npmjs.org/chartjs-adapter-luxon/-/chartjs-adapter-luxon-1.1.0.tgz"
+  "version" "1.1.0"
+
+"chartjs-plugin-streaming@^2.0.0":
+  "integrity" "sha512-oBwHRmovGbPDS1h8PhpttnlKjI6eiJO13v4h+xz+mfbHhIc+iNF9xuMobCIFMKFH7rlVWi5TJAOIxoXyGElYYg=="
+  "resolved" "https://registry.npmjs.org/chartjs-plugin-streaming/-/chartjs-plugin-streaming-2.0.0.tgz"
+  "version" "2.0.0"
 
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="
@@ -7536,6 +7546,11 @@
   dependencies:
     "yallist" "^4.0.0"
 
+"luxon@^1.0.0 || ^2.0.0", "luxon@^2.0.2":
+  "integrity" "sha512-ZRioYLCgRHrtTORaZX1mx+jtxKtKuI5ZDvHNAmqpUzGqSrR+tL4FVLn/CUGMA3h0+AKD1MAxGI5GnCqR5txNqg=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-2.0.2.tgz"
+  "version" "2.0.2"
+
 "magic-string@^0.25.0", "magic-string@^0.25.7":
   "integrity" "sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA=="
   "resolved" "https://registry.npmjs.org/magic-string/-/magic-string-0.25.7.tgz"
@@ -9888,12 +9903,10 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
-"react-chartjs-2@*", "react-chartjs-2@^3.0.5":
-  "integrity" "sha512-fYr4E82agaZi9IFMe5GtOZ6WE/HWdxy/KywLNOzXsqgPkD2oo1IlrQLKMLUki/2UXko3p95TR2L8Q2rEss/opQ=="
-  "resolved" "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-3.0.5.tgz"
-  "version" "3.0.5"
-  dependencies:
-    "lodash" "^4.17.19"
+"react-chartjs-2@*", "react-chartjs-2@^3.2.0":
+  "integrity" "sha512-UFedkfhOriqyslqYMrdK225TdxFq6YSmGJVQplLC37eoKBfbpkJHxVq+SPMpoVY2oV9fx33RrD4Obv0wKZtclw=="
+  "resolved" "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-3.2.0.tgz"
+  "version" "3.2.0"
 
 "react-dev-utils@^11.0.3":
   "integrity" "sha512-dx0LvIGHcOPtKbeiSUM4jqpBl3TcY7CDjZdfOIcKeznE7BWr9dg0iPG90G5yfVQ+p/rGNMXdbfStvzQZEVEi4A=="

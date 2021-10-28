@@ -6,6 +6,7 @@ import { Chart } from "./charts/Chart";
 import { TypeSortingChart } from "./charts/TypeSortingChart";
 import { useMousePosition } from "../../components/mouse position/useMousePosition";
 import IotDuct from "./iot/IotDuct";
+import { getPointPosition } from "./helper/pointPosition";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
@@ -13,11 +14,22 @@ interface Model {
 export const ViewerAction = ({ allModels }: Model) => {
   const [showColorModel, setShowColorModel] = React.useState(false);
 
-  const mousePosition = useMousePosition();
+  // const mousePosition = useMousePosition();
   let btnShow = !showColorModel ? "Show model color" : "Hide model color";
   let btnColor = !showColorModel
     ? "id-btn-green-showModelColor"
     : "id-btn-red-showModelColor";
+
+  // if (allModels) {
+  //   try {
+  //     const e = getPointPosition(allModels);
+  //     console.log(e);
+
+  //     console.log(allModels);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <div className="isolate-element">
@@ -40,7 +52,7 @@ export const ViewerAction = ({ allModels }: Model) => {
       <div>
         <TypeSortingChart allModels={allModels} />
       </div>
-      <div>
+      {/* <div>
         <p
           style={{
             color: "#cc527a",
@@ -48,7 +60,7 @@ export const ViewerAction = ({ allModels }: Model) => {
         >
           X: {mousePosition.x} Y: {mousePosition.y}
         </p>
-      </div>
+      </div> */}
       <div>
         <IotDuct allModels={allModels} />
       </div>

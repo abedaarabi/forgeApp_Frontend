@@ -1,7 +1,7 @@
 import React from "react";
 import { Project } from "./components/Projects";
 import { ProjectItems } from "./components/projectItems/ProjectItems";
-import { PublishItems } from "./components/PublishItems";
+import { PublishItems } from "./components/publish/PublishItems";
 import { DataTable } from "./components/ProjectMetaData";
 import { PageNotFound } from "./components/PageNotFound";
 import { Home } from "./components/home/Home";

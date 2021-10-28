@@ -1,5 +1,6 @@
 import React from "react";
 import { IotChart } from "../charts/IotChart";
+import { getPointPosition } from "../helper/pointPosition";
 import { getCore, sprites } from "../IoTHelper/sprite";
 
 interface Model {
@@ -8,7 +9,37 @@ interface Model {
 export const IotDuct = ({ allModels }: Model) => {
   //states
   const [core, setCore] = React.useState() as any;
-  const [showIot, setShowIot] = React.useState(false);
+  const [showIot, setShowIot] = React.useState(true);
+  const [showChart, setShowChart] = React.useState(false);
+
+  async function name() {
+    if (showIot) {
+      try {
+        if (!allModels) return;
+        const DataVizCore = await getCore(allModels);
+        if (DataVizCore) {
+          await setCore(DataVizCore);
+        }
+
+        await sprites(allModels, -12, -30, -40, 20560);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        if (!allModels) return;
+        const dataVizExtn = await allModels.loadExtension(
+          "Autodesk.DataVisualization"
+        );
+
+        //@ts-ignore
+        dataVizExtn.removeAllViewables();
+        setShowChart(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 
   React.useEffect(() => {
     try {
@@ -19,7 +50,7 @@ export const IotDuct = ({ allModels }: Model) => {
             if (event.dbId === 20560) {
               console.log(event.dbId);
 
-              setShowIot(true);
+              setShowChart(true);
             }
           },
           false
@@ -27,55 +58,42 @@ export const IotDuct = ({ allModels }: Model) => {
         allModels.addEventListener(
           core.MOUSE_CLICK_OUT,
           (event: any) => {
-            setShowIot(false);
+            setShowChart(false);
           },
           false
         );
+
+        //testing chart
       }
     } catch (error) {
       console.log(error);
     }
   }, [showIot, core]);
-  return (
-    <div>
-      <button
-        onClick={async () => {
-          try {
-            if (!allModels) return;
-            const DataVizCore = await getCore(allModels);
-            if (DataVizCore) {
-              await setCore(DataVizCore);
-            }
 
-            await sprites(allModels);
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      >
-        cilck me
-      </button>
-      <button
-        onClick={async () => {
-          try {
-            if (!allModels) return;
-            const dataVizExtn = await allModels.loadExtension(
-              "Autodesk.DataVisualization"
-            );
-            setShowIot(false);
-            //@ts-ignore
-            dataVizExtn.removeAllViewables();
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      >
-        Remove
-      </button>
+  const btnText = showIot ? "Show Sensor" : "Hide Sensor";
+  const btnClass = showIot
+    ? "viewer-iot-chart-btn-show"
+    : "viewer-iot-chart-btn-rmv";
+
+  return (
+    <div className="viewer-iot-chart">
+      <div className="viewer-iot-chart-btn">
+        <button
+          className={btnClass}
+          onClick={async () => {
+            await name();
+            setShowIot(!showIot);
+          }}
+        >
+          {btnText}
+        </button>
+      </div>
 
       <div>
-        {showIot ? (
+        {showChart ? (
           <div>
+            <IotChart />
+            <IotChart />
             <IotChart />
           </div>
         ) : null}
