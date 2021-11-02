@@ -19,7 +19,7 @@ export const ItemsActions = ({
     <div className="items-action-list">
       {arrayOfItems[0] ? (
         <div>
-          <li>
+          {/* <li>
             <Link
               to={{
                 pathname: `/table/${projectId}/items/${arrayOfItems[0].derivativesId}`,
@@ -27,7 +27,7 @@ export const ItemsActions = ({
             >
               <p className="project-metadata">Project Metadata</p>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               to={{

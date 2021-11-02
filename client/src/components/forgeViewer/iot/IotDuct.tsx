@@ -70,7 +70,7 @@ export const IotDuct = ({ allModels }: Model) => {
     }
   }, [showIot, core]);
 
-  const btnText = showIot ? "Show Sensor" : "Hide Sensor";
+  const btnText = showIot ? "Show IoT Sensor" : "Hide IoT Sensor";
   const btnClass = showIot
     ? "viewer-iot-chart-btn-show"
     : "viewer-iot-chart-btn-rmv";

@@ -45,7 +45,7 @@ export const ForgeViewer = () => {
       ],
     });
     await viewer.start();
-    viewer.setLightPreset(1);
+    viewer.setLightPreset(2);
     viewer.setEnvMapBackground(false);
     viewer.fitToView();
 
@@ -85,7 +85,6 @@ export const ForgeViewer = () => {
   //initializeViewer
   const initializeViewer = async () => {
     const token = await getToken();
-    console.log([token]);
 
     //OTG
     const viewerOptions = {

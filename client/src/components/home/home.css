@@ -6,9 +6,6 @@
   align-items: center;
   flex-direction: column;
   margin-top: 50px;
-
-  animation-duration: 4s;
-  animation-delay: 2s;
 }
 
 .home-main-div-link {
@@ -16,7 +13,7 @@
   width: 150px;
   margin-top: 60px;
 
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(49, 144, 223);
   font-size: large;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -25,6 +22,7 @@
   display: flex;
   justify-content: center;
   margin-top: 5px;
+  color: rgb(255, 255, 255);
 }
 .home-main-div h1 {
   color: rgb(90, 89, 89);
