@@ -18,7 +18,8 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   /****** States ******/
   const [modelIsLoadDone, setModelIsLoadDone] = React.useState(null) as any;
   const [isLoading, setIsLoading] = React.useState(true);
-  let [elementColor, setElementColor] = React.useState("") as any;
+  const [chartIndex, setChartIndex] = React.useState() as any;
+
   const [acceptedTypeSorting, setAcceptedTypeSorting] = React.useState(
     null
   ) as any;
@@ -47,7 +48,39 @@ export const TypeSortingChart = ({ allModels }: Model) => {
 
   React.useEffect(() => {
     getModelValues();
-  }, [elementColor]);
+  }, [modelIsLoadDone]);
+  
+  React.useEffect(() => {
+    if (!allModels) return;
+    const allLoadedViewers = isolateAndColorObject(
+      allModels as Autodesk.Viewing.GuiViewer3D
+    );
+    allLoadedViewers.forEach((model) => {
+      try {
+        if (!acceptedTypeSorting && isNotTypeSorting) return;
+
+        const planKey = [acceptedTypeSorting, isNotTypeSorting][chartIndex];
+        const eltColor = chartIndex === 0 ? "#3CB371" : "#FF0000";
+        let Ccolor = new THREE.Color(eltColor);
+        let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b);
+
+        if (allModels && planKey) {
+          allModels.isolate(planKey.flat(), model);
+          planKey.flat().forEach((id: any) => {
+            try {
+              allModels.setThemingColor(id, outputColor, model);
+              allModels.fitToView(planKey.flat());
+              // allModels.select(planDbIds);
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }, [chartIndex]);
 
   const barData = {
     labels: ["acceptedTypeSorting", "isNotTypeSorting"],
@@ -66,6 +99,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       },
     ],
   };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -73,49 +107,11 @@ export const TypeSortingChart = ({ allModels }: Model) => {
     backgroundColor: "gradient",
 
     onClick: function (event: any, item: any[]) {
-      if (allModels) {
-        const allLoadedViewers = isolateAndColorObject(
-          allModels as Autodesk.Viewing.GuiViewer3D
-        );
-
-        allLoadedViewers.forEach((model) => {
-          try {
-            if (!acceptedTypeSorting && isNotTypeSorting) return;
-            const planKey = [acceptedTypeSorting, isNotTypeSorting][
-              item[0].index
-            ];
-            if (!planKey) return;
-            if (item[0].index === 0) {
-              setElementColor("#3CB371");
-            } else {
-              setElementColor("#FF0000");
-            }
-
-            let Ccolor = new THREE.Color(elementColor);
-            let outputColor = new THREE.Vector4(
-              Ccolor.r,
-              Ccolor.g,
-              Ccolor.b,
-              1
-            );
-
-            if (planKey) {
-              allModels.isolate(planKey.flat(), model);
-              planKey.flat().forEach((id: any) => {
-                try {
-                  allModels.setThemingColor(id, outputColor, model);
-                  allModels.fitToView(planKey.flat());
-                  // allModels.select(planDbIds);
-                } catch (error) {
-                  console.log(error);
-                }
-              });
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        });
-      }
+      try {
+        console.log("before");
+        console.log({ item: item[0] });
+        setChartIndex(item[0].index);
+      } catch (error) {}
     },
   };
   const chartModelBtn = showModel ? "Hide Type Sorting" : "Show Type Sorting";

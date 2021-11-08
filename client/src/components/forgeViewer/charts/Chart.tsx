@@ -70,7 +70,7 @@ export const Chart = ({ allModels }: Model) => {
         hoverBackgroundColor: ["#e85d4c"],
 
         borderColor: color,
-        borderWidth: 2,
+        borderWidth: 1.3,
       },
     ],
   } as any;
