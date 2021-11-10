@@ -7,6 +7,7 @@ import { TypeSortingChart } from "./charts/TypeSortingChart";
 import { useMousePosition } from "../../components/mouse position/useMousePosition";
 import IotDuct from "./iot/IotDuct";
 import { getPointPosition } from "./helper/pointPosition";
+import { SelectedEltChart } from "./charts/SelectedEltChart";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
@@ -51,6 +52,9 @@ export const ViewerAction = ({ allModels }: Model) => {
       </div>
       <div>
         <TypeSortingChart allModels={allModels} />
+      </div>
+      <div>
+        <SelectedEltChart allModels={allModels} />
       </div>
       {/* <div>
         <p

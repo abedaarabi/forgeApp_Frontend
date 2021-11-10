@@ -8,57 +8,55 @@ import {
   getAllLeavesProperties,
   isolateAndColorObject,
 } from "../helper/forgeViwerHelper";
-
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
 }
 
-export const Chart = ({ allModels }: Model) => {
+export const SelectedEltChart = ({ allModels }: Model) => {
+  //state
   const [isLoading, setIsLoading] = React.useState(true);
+  const [color, setColor] = React.useState("#885078" as string);
+  const [allProps, setAllProps] = React.useState([] as string[]);
   const [aLabel, setAlabel] = React.useState("") as any;
+  const [paramValue, setParamValue] = React.useState("") as any;
   const [eltLenght, setEltLength] = React.useState("") as any;
   const [showModel, setShowModel] = React.useState(false) as any;
   const [dataObject, setDataObject] = React.useState(null) as any;
-  const [paramValue, setParamValue] = React.useState("") as any;
-  const [modelIsLoadDone, setModelIsLoadDone] = React.useState(null) as any;
-  const [allProps, setAllProps] = React.useState([] as string[]);
-  const [color, setColor] = React.useState("#885078" as string);
-
   const getAllProps = async () => {
     if (!allModels) return;
-    setModelIsLoadDone(allModels.isLoadDone());
-    const allPropsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
-    console.log(allPropsMetaDAta);
 
-    await setDataObject(allPropsMetaDAta);
-    setIsLoading(true);
-    setAllProps(Object.keys(allPropsMetaDAta));
-    setIsLoading(false);
-    const BaseConstraint = allPropsMetaDAta[paramValue];
-    if (BaseConstraint) {
-      try {
-        const modelData = allPropsMetaDAta[paramValue];
-        const label = Object.keys(modelData);
-        if (label) setAlabel(label);
-        const countedElt = Object.keys(allPropsMetaDAta[paramValue]).map(
-          (key) => allPropsMetaDAta[paramValue][key].length
-        );
+    try {
+      const allPropsMetaDAta = (await getSelectedElement(allModels)) as any;
+      setIsLoading(true);
+      await setDataObject(allPropsMetaDAta);
+      setAllProps(Object.keys(allPropsMetaDAta));
+      setIsLoading(false);
+      console.log(allPropsMetaDAta);
+      const modelData = allPropsMetaDAta[paramValue];
+      const label = Object.keys(modelData);
+      if (label) setAlabel(label);
 
-        setEltLength(countedElt);
-      } catch (error) {
-        console.log(error);
+      const countedElt = Object.keys(allPropsMetaDAta[paramValue]).map(
+        (key) => allPropsMetaDAta[paramValue][key].length
+      );
+      console.log(countedElt);
+
+      setEltLength(countedElt);
+    } catch (error) {
+      if (error === "empty") {
+        setAllProps([]);
+        setAlabel([]);
+        // alert("Select Element");
+        setShowModel(false);
       }
     }
   };
 
   React.useEffect(() => {
     getAllProps();
-  }, [allModels, modelIsLoadDone]);
-  React.useEffect(() => {
-    getAllProps();
-    setParamValue(paramValue);
   }, [paramValue]);
 
+  console.log(eltLenght);
   const barData = {
     labels: aLabel,
     datasets: [
@@ -113,11 +111,13 @@ export const Chart = ({ allModels }: Model) => {
       }
     },
   };
-  const chartModelBtn = showModel ? "Hide model chart" : "Show model chart";
+  const chartModelBtn = showModel
+    ? "Hide Selected Chart"
+    : "Show Selected Chart";
   return (
     <div>
       <button
-        style={{ background: "#227093" }}
+        style={{ background: "#bc4555" }}
         onClick={() => {
           getAllProps();
           setShowModel(!showModel);
@@ -125,7 +125,7 @@ export const Chart = ({ allModels }: Model) => {
       >
         {chartModelBtn}
       </button>
-      <div className="chart-pie-model"></div>
+
       <div>
         {showModel ? (
           <div className="chart-pie-model-input">
@@ -154,7 +154,7 @@ export const Chart = ({ allModels }: Model) => {
                     options={options}
                     data={barData}
                     height={200}
-                    width={500}
+                    width={400}
                   />
                 </div>
               </div>
@@ -164,4 +164,44 @@ export const Chart = ({ allModels }: Model) => {
       </div>
     </div>
   );
+};
+
+/****************************************************/
+
+const getSelectedElement = (allModels: Autodesk.Viewing.GuiViewer3D) => {
+  let histogram = {} as any;
+  let count = 0;
+  return new Promise((resolve, reject) => {
+    if (allModels) {
+      const allLoadedViewers = isolateAndColorObject(allModels);
+      allLoadedViewers.forEach((model) => {
+        const selectedIds = allModels.getSelection();
+
+        if (selectedIds.length === 0) {
+          reject("empty");
+        }
+
+        if (model)
+          selectedIds.forEach((id) => {
+            model.getProperties(id, (props) => {
+              for (let prop of props.properties) {
+                if (!prop) return;
+                if (!histogram[prop.displayName]) {
+                  histogram[prop.displayName] = {};
+                }
+                if (!histogram[prop.displayName][prop.displayValue]) {
+                  histogram[prop.displayName][prop.displayValue] = [];
+                }
+
+                histogram[prop.displayName][prop.displayValue].push(props.dbId);
+              }
+              count++;
+              if (count === selectedIds.length) {
+                resolve(histogram);
+              }
+            });
+          });
+      });
+    }
+  });
 };

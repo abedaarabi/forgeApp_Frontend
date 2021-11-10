@@ -24,22 +24,16 @@ export const ModelColor = ({ allModels }: Model) => {
             textColor,
             (dbid) => {
               let Ccolor = new THREE.Color(color);
-              let outputColor = new THREE.Vector4(
-                Ccolor.r,
-                Ccolor.g,
-                Ccolor.b,
-                1
-              );
+              let outputColor = new THREE.Vector4(Ccolor.r, Ccolor.g, Ccolor.b);
               if (dbid) setIsLoading(false);
               allModels.isolate(dbid, model);
 
               dbid.forEach((id) => {
-                allModels.setThemingColor(id, outputColor, model);
-                allModels.fitToView(dbid);
-                allModels.select(id);
+                try {
+                  allModels.setThemingColor(id, outputColor, model);
+                } catch (error) {}
               });
-
-              allModels.setGhosting(true);
+              allModels.select(dbid);
             },
             () => console.log("error"),
             [],
@@ -47,6 +41,8 @@ export const ModelColor = ({ allModels }: Model) => {
           );
         }
       }
+
+      allModels.setGhosting(true);
     }
   };
 

@@ -29,6 +29,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   const getModelValues = async () => {
     try {
       if (!allModels) return;
+
       setModelIsLoadDone(allModels.isLoadDone());
       const allPropsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
       const TypeSorting = allPropsMetaDAta["Type Sorting"];
@@ -36,7 +37,9 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       /**Helper Function to get accepted values */
       getcomplinceValues(TypeSorting, accTypeSorting, (data: any) => {
         if (!data) return;
+
         setIsLoading(true);
+
         setAcceptedTypeSorting(data.arrAcceptedValues);
         setIsNotTypeSorting(data.notArrAcceptedValues);
         setIsLoading(false);
@@ -49,7 +52,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   React.useEffect(() => {
     getModelValues();
   }, [modelIsLoadDone]);
-  
+
   React.useEffect(() => {
     if (!allModels) return;
     const allLoadedViewers = isolateAndColorObject(
@@ -57,7 +60,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
     );
     allLoadedViewers.forEach((model) => {
       try {
-        if (!acceptedTypeSorting && isNotTypeSorting) return;
+        if (!acceptedTypeSorting && !isNotTypeSorting) return;
 
         const planKey = [acceptedTypeSorting, isNotTypeSorting][chartIndex];
         const eltColor = chartIndex === 0 ? "#3CB371" : "#FF0000";
@@ -70,7 +73,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
             try {
               allModels.setThemingColor(id, outputColor, model);
               allModels.fitToView(planKey.flat());
-              // allModels.select(planDbIds);
+              allModels.select(id);
             } catch (error) {
               console.log(error);
             }
@@ -108,7 +111,6 @@ export const TypeSortingChart = ({ allModels }: Model) => {
 
     onClick: function (event: any, item: any[]) {
       try {
-        console.log("before");
         console.log({ item: item[0] });
         setChartIndex(item[0].index);
       } catch (error) {}
@@ -121,6 +123,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
         style={{ backgroundColor: "#008B8B" }}
         onClick={() => {
           getModelValues();
+
           setShowModel(!showModel);
         }}
       >
@@ -142,9 +145,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
               </div>
             )}
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
     </div>
   );
