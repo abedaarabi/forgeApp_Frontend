@@ -22,6 +22,7 @@ export const SelectedEltChart = ({ allModels }: Model) => {
   const [eltLenght, setEltLength] = React.useState("") as any;
   const [showModel, setShowModel] = React.useState(false) as any;
   const [dataObject, setDataObject] = React.useState(null) as any;
+  const [calValue, setCalValue] = React.useState() as any;
   const getAllProps = async () => {
     if (!allModels) return;
 
@@ -39,7 +40,6 @@ export const SelectedEltChart = ({ allModels }: Model) => {
       const countedElt = Object.keys(allPropsMetaDAta[paramValue]).map(
         (key) => allPropsMetaDAta[paramValue][key].length
       );
-      console.log(countedElt);
 
       setEltLength(countedElt);
     } catch (error) {
@@ -53,10 +53,24 @@ export const SelectedEltChart = ({ allModels }: Model) => {
   };
 
   React.useEffect(() => {
+    const area = getValue(aLabel, paramValue, "Area");
+    const volume = getValue(aLabel, paramValue, "Volume");
+    const length = getValue(aLabel, paramValue, "Length");
+    if (area) {
+      setCalValue("Area : " + area + " mm");
+    }
+    if (volume) {
+      setCalValue("Volume : " + volume + " mm");
+    }
+    if (length) {
+      setCalValue("Length : " + length + " mm");
+    }
+  }, [aLabel]);
+
+  React.useEffect(() => {
     getAllProps();
   }, [paramValue]);
 
-  console.log(eltLenght);
   const barData = {
     labels: aLabel,
     datasets: [
@@ -149,6 +163,7 @@ export const SelectedEltChart = ({ allModels }: Model) => {
                     <option key={list}>{list}</option>
                   ))}
                 </select>
+                <p style={{ marginLeft: "90px", color: "white" }}>{calValue}</p>
                 <div className="chart-pie-model-char">
                   <Line
                     options={options}
@@ -169,6 +184,7 @@ export const SelectedEltChart = ({ allModels }: Model) => {
 /****************************************************/
 
 const getSelectedElement = (allModels: Autodesk.Viewing.GuiViewer3D) => {
+  let allIds = [] as any;
   let histogram = {} as any;
   let count = 0;
   return new Promise((resolve, reject) => {
@@ -176,6 +192,8 @@ const getSelectedElement = (allModels: Autodesk.Viewing.GuiViewer3D) => {
       const allLoadedViewers = isolateAndColorObject(allModels);
       allLoadedViewers.forEach((model) => {
         const selectedIds = allModels.getSelection();
+        //     const selectedIds = allModels.getAggregateSelection();
+        //  const    selectedIds.map((ids) => ids.selection);
 
         if (selectedIds.length === 0) {
           reject("empty");
@@ -205,3 +223,13 @@ const getSelectedElement = (allModels: Autodesk.Viewing.GuiViewer3D) => {
     }
   });
 };
+/***********************************/
+
+function getValue(arr: any, paramValue: any, accValue: any) {
+  if (arr.length !== 0 && paramValue === accValue) {
+    return arr.reduce((acc: string, val: string) => {
+      const value = Number(acc) + Number(val);
+      return value.toFixed(1);
+    }, 0);
+  }
+}

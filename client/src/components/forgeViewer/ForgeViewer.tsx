@@ -10,6 +10,8 @@ import { ItemDetails } from "../../interfaces/ItemDetails";
 export const ForgeViewer = () => {
   const [loaededViewer, setLoaededViewer] =
     React.useState<Autodesk.Viewing.GuiViewer3D>();
+  const [isModelLoaded, setIsModeslLoaded] = React.useState(null);
+  console.log({ isModelLoaded });
 
   let allurn: any = [];
   let newArr = [] as boolean[];
@@ -48,6 +50,11 @@ export const ForgeViewer = () => {
     viewer.setLightPreset(2);
     viewer.setEnvMapBackground(false);
     viewer.fitToView();
+
+    viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, (x) => {
+      setIsModeslLoaded(x.type);
+      console.log("5555555", x);
+    });
 
     viewer && setLoaededViewer(viewer);
 
@@ -134,7 +141,7 @@ export const ForgeViewer = () => {
 
   useEffect(() => {
     initializeViewer();
-  }, []);
+  }, [isModelLoaded]);
 
   return (
     <div className="main-div">
