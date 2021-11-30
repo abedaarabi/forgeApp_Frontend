@@ -74,7 +74,7 @@ export const items = async (allProjects?) => {
             downloadItem: downloadItems,
           });
         } else {
-          console.log(`Ignore ${incloude.attributes.displayName}`);
+          // console.log(`Ignore ${incloude.attributes.displayName}`);
         }
       } catch (error) {
         console.log(error);
