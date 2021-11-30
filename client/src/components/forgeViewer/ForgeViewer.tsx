@@ -53,7 +53,6 @@ export const ForgeViewer = () => {
 
     viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, (x) => {
       setIsModeslLoaded(x.type);
-      console.log("5555555", x);
     });
 
     viewer && setLoaededViewer(viewer);
@@ -141,7 +140,8 @@ export const ForgeViewer = () => {
 
   useEffect(() => {
     initializeViewer();
-  }, [isModelLoaded]);
+  }, []);
+  useEffect(() => {}, [isModelLoaded]);
 
   return (
     <div className="main-div">
