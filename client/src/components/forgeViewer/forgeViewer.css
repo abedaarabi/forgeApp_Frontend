@@ -184,4 +184,21 @@ input {
   background-color: rgb(212, 54, 62);
   height: 30px;
   width: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-pie-checkbox {
+  margin-left: -90px;
+  margin-top: -5px;
+  position: absolute;
+}
+label {
+  color: rgb(190, 190, 190);
+  font-size: medium;
+  font-family: Consolas, Baskerville, "Segoe UI", sans-serif;
+}
+
+input[type="checkbox"]:hover {
+  box-shadow: 0px 0px 10px #e27b7b;
 }

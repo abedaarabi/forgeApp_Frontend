@@ -51,10 +51,10 @@ export const ViewerAction = ({ allModels }: Model) => {
         <Chart allModels={allModels} />
       </div>
       <div>
-        <TypeSortingChart allModels={allModels} />
+        <SelectedEltChart allModels={allModels} />
       </div>
       <div>
-        <SelectedEltChart allModels={allModels} />
+        <TypeSortingChart allModels={allModels} />
       </div>
       {/* <div>
         <p

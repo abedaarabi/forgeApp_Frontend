@@ -15,8 +15,6 @@ import { TrackingMiddleware } from './middlewares/tracking.middleware';
   controllers: [AppController, ProjectController, ItemController],
   providers: [AppService],
 })
-
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer

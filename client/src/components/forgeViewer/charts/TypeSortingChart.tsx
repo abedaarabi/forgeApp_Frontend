@@ -7,7 +7,11 @@ import {
   isolateAndColorObject,
 } from "../helper/forgeViwerHelper";
 
-import { accTypeSorting } from "../helper/acceptedTypeSortingValues";
+import {
+  accTypeSorting_K09,
+  accTypeSorting_K08,
+  accTypeSorting_K07,
+} from "../helper/acceptedTypeSortingValues";
 import { getcomplinceValues } from "../helper/chart.helper";
 import { Spin } from "antd";
 interface Model {
@@ -25,6 +29,15 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   ) as any;
   const [isNotTypeSorting, setIsNotTypeSorting] = React.useState(null) as any;
   const [showModel, setShowModel] = React.useState(false) as any;
+
+  const [info, setInfo] = React.useState(null) as any;
+  const [checked, setChecked] = React.useState(null) as any;
+
+  const toggle = (evt: any) =>
+    setChecked((current: any) =>
+      current === evt.target.value ? null : evt.target.value
+    );
+
   /**** Get Parameters Values ****/
   const getModelValues = async () => {
     try {
@@ -35,8 +48,9 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       const TypeSorting = allPropsMetaDAta["Type Sorting"];
 
       /**Helper Function to get accepted values */
-      getcomplinceValues(TypeSorting, accTypeSorting, (data: any) => {
+      getcomplinceValues(TypeSorting, info, (data: any) => {
         if (!data) return;
+        console.log({ info });
 
         setIsLoading(true);
 
@@ -49,9 +63,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
     }
   };
 
-  React.useEffect(() => {
-    getModelValues();
-  }, [modelIsLoadDone]);
+  React.useEffect(() => {}, [modelIsLoadDone]);
 
   React.useEffect(() => {
     if (!allModels) return;
@@ -84,6 +96,24 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       }
     });
   }, [chartIndex]);
+
+  /**** checkBox selections ****/
+
+  React.useEffect(() => {
+    switch (checked) {
+      case "k09":
+        setInfo(accTypeSorting_K09);
+        break;
+      case "k08":
+        setInfo(accTypeSorting_K08);
+        break;
+      case "k07":
+        setInfo([null]);
+        break;
+      default:
+        setInfo(null);
+    }
+  }, [checked]);
 
   const barData = {
     labels: ["acceptedTypeSorting", "isNotTypeSorting"],
@@ -129,6 +159,42 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       >
         {chartModelBtn}
       </button>
+      <div className="chart-pie-checkbox">
+        <div>
+          <label>
+            <input
+              style={{ color: "white" }}
+              value="k09"
+              type="checkbox"
+              checked={checked === "k09"}
+              onChange={toggle}
+            />
+            K09
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              value="k08"
+              type="checkbox"
+              checked={checked === "k08"}
+              onChange={toggle}
+            />
+            K08
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              value="k07"
+              type="checkbox"
+              checked={checked === "k07"}
+              onChange={toggle}
+            />
+            K07
+          </label>
+        </div>
+      </div>
       <div>
         {showModel ? (
           <div className="chart-pie-model-typesorting">

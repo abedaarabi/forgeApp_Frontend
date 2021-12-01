@@ -12,6 +12,7 @@ export class TrackingMiddleware implements NestMiddleware {
     today = (mm + '/' + dd + '/' + yyyy) as any;
     Logger.debug(today);
     Logger.debug(req.headers);
+
     next();
   }
 }
