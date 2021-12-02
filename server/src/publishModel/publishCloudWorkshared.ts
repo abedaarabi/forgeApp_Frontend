@@ -20,6 +20,7 @@ export const publishCloudWorkshared = async (allItems, isPublish: boolean) => {
         item.projectGuid &&
         (item.fileName.includes('K07') ||
           item.fileName.includes('K08') ||
+          item.fileName.includes('K01') ||
           item.fileName.includes('K09') ||
           item.fileName.includes('K10'))
       ) {

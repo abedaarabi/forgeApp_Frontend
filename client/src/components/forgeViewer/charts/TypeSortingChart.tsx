@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ".././forgeViewer.css";
 // Bar, Doughnut, Pie
 import { Doughnut, Bar, Pie } from "react-chartjs-2";
@@ -103,9 +103,11 @@ export const TypeSortingChart = ({ allModels }: Model) => {
     switch (checked) {
       case "k09":
         setInfo(accTypeSorting_K09);
+
         break;
       case "k08":
         setInfo(accTypeSorting_K08);
+
         break;
       case "k07":
         setInfo([null]);
@@ -114,6 +116,10 @@ export const TypeSortingChart = ({ allModels }: Model) => {
         setInfo(null);
     }
   }, [checked]);
+
+  React.useEffect(() => {
+    getModelValues();
+  }, [info]);
 
   const barData = {
     labels: ["acceptedTypeSorting", "isNotTypeSorting"],
@@ -152,9 +158,13 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       <button
         style={{ backgroundColor: "#008B8B" }}
         onClick={() => {
-          getModelValues();
+          if (!checked) {
+            alert("Please Select K0__");
+          } else {
+            getModelValues();
 
-          setShowModel(!showModel);
+            setShowModel(!showModel);
+          }
         }}
       >
         {chartModelBtn}
