@@ -14,13 +14,14 @@ import {
 } from "../helper/acceptedTypeSortingValues";
 import { getcomplinceValues } from "../helper/chart.helper";
 import { Spin } from "antd";
+import FilterSelect from "../FilterSelect";
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
 }
 
 export const TypeSortingChart = ({ allModels }: Model) => {
   /****** States ******/
-  const [modelIsLoadDone, setModelIsLoadDone] = React.useState(null) as any;
+
   const [isLoading, setIsLoading] = React.useState(true);
   const [chartIndex, setChartIndex] = React.useState() as any;
 
@@ -33,24 +34,24 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   const [info, setInfo] = React.useState(null) as any;
   const [checked, setChecked] = React.useState(null) as any;
 
+  const [items, setItems] = React.useState([]) as any;
+
   const toggle = (evt: any) =>
     setChecked((current: any) =>
       current === evt.target.value ? null : evt.target.value
     );
 
   /**** Get Parameters Values ****/
+
   const getModelValues = async () => {
     try {
       if (!allModels) return;
-
-      setModelIsLoadDone(allModels.isLoadDone());
       const allPropsMetaDAta = (await getAllLeavesProperties(allModels)) as any;
       const TypeSorting = allPropsMetaDAta["Type Sorting"];
 
       /**Helper Function to get accepted values */
       getcomplinceValues(TypeSorting, info, (data: any) => {
         if (!data) return;
-        console.log({ info });
 
         setIsLoading(true);
 
@@ -62,8 +63,6 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       console.log(error);
     }
   };
-
-  React.useEffect(() => {}, [modelIsLoadDone]);
 
   React.useEffect(() => {
     if (!allModels) return;
@@ -109,20 +108,28 @@ export const TypeSortingChart = ({ allModels }: Model) => {
         setInfo(accTypeSorting_K08);
 
         break;
+      //k01 dummy test value!
+      case "k01":
+        const typeSorting = items.map((item: any) => {
+          return item["k08"];
+        });
+
+        setInfo(typeSorting);
+        break;
       case "k07":
         setInfo([null]);
         break;
       default:
         setInfo(null);
     }
-  }, [checked]);
+  }, [checked, items]);
 
   React.useEffect(() => {
     getModelValues();
   }, [info]);
 
   const barData = {
-    labels: ["acceptedTypeSorting", "isNotTypeSorting"],
+    labels: ["Accepted Values", "Not Accepted Values"],
     datasets: [
       {
         label: "Type Sorting",
@@ -158,18 +165,32 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       <button
         style={{ backgroundColor: "#008B8B" }}
         onClick={() => {
-          if (!checked) {
-            alert("Please Select K0__");
-          } else {
+          if (checked) {
             getModelValues();
-
             setShowModel(!showModel);
+          } else {
+            alert("Please select checkbox");
           }
         }}
       >
         {chartModelBtn}
       </button>
       <div className="chart-pie-checkbox">
+        <div>
+          <FilterSelect setItems={setItems} />
+        </div>
+        <div>
+          <label>
+            <input
+              style={{ color: "white" }}
+              value="k01"
+              type="checkbox"
+              checked={checked === "k01"}
+              onChange={toggle}
+            />
+            Client
+          </label>
+        </div>
         <div>
           <label>
             <input
@@ -215,8 +236,8 @@ export const TypeSortingChart = ({ allModels }: Model) => {
                 <Doughnut
                   data={barData}
                   options={options}
-                  height={250}
-                  width={300}
+                  height={200}
+                  width={250}
                 />
               </div>
             )}

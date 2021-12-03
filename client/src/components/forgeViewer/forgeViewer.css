@@ -189,7 +189,7 @@ input {
 }
 
 .chart-pie-checkbox {
-  margin-left: -90px;
+  margin-left: -100px;
   margin-top: -5px;
   position: absolute;
 }
@@ -201,4 +201,25 @@ label {
 
 input[type="checkbox"]:hover {
   box-shadow: 0px 0px 10px #e27b7b;
+}
+
+.upload-xml {
+  font-size: 12px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50px;
+  /* box-shadow: 5px 5px 10px black; */
+  width: 190px;
+  outline: none;
+}
+
+::-webkit-file-upload-button {
+  color: white;
+  background-color: #206a5b;
+  padding: 5px;
+  border: none;
+  /* box-shadow: 1px 0 1px #6b4559; */
+  outline: none;
+}
+::-webkit-file-upload-button:hover {
+  background-color: #178f77;
 }
