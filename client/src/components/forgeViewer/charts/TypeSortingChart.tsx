@@ -30,6 +30,9 @@ export const TypeSortingChart = ({ allModels }: Model) => {
   ) as any;
   const [isNotTypeSorting, setIsNotTypeSorting] = React.useState(null) as any;
   const [showModel, setShowModel] = React.useState(false) as any;
+  const [showTypesortingModel, setShowTypesortingModel] = React.useState(
+    false
+  ) as any;
 
   const [info, setInfo] = React.useState(null) as any;
   const [checked, setChecked] = React.useState(null) as any;
@@ -84,7 +87,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
             try {
               allModels.setThemingColor(id, outputColor, model);
               allModels.fitToView(planKey.flat());
-              allModels.select(id);
+              allModels.select(planKey.flat());
             } catch (error) {
               console.log(error);
             }
@@ -159,91 +162,109 @@ export const TypeSortingChart = ({ allModels }: Model) => {
       } catch (error) {}
     },
   };
-  const chartModelBtn = showModel ? "Hide Type Sorting" : "Show Type Sorting";
+  const chartModelBtn = showModel ? "Hide Chart" : "Show Chart";
+  const typeShortingBtn = showTypesortingModel
+    ? "Hide Type Sorting"
+    : "Show Type Sorting";
   return (
     <div>
-      <button
-        style={{ backgroundColor: "#008B8B" }}
-        onClick={() => {
-          if (checked) {
-            getModelValues();
-            setShowModel(!showModel);
-          } else {
-            alert("Please select checkbox");
-          }
-        }}
-      >
-        {chartModelBtn}
-      </button>
-      <div className="chart-pie-checkbox">
-        <div>
-          <FilterSelect setItems={setItems} />
-        </div>
-        <div>
-          <label>
-            <input
-              style={{ color: "white" }}
-              value="k01"
-              type="checkbox"
-              checked={checked === "k01"}
-              onChange={toggle}
-            />
-            Client
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              style={{ color: "white" }}
-              value="k09"
-              type="checkbox"
-              checked={checked === "k09"}
-              onChange={toggle}
-            />
-            K09
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              value="k08"
-              type="checkbox"
-              checked={checked === "k08"}
-              onChange={toggle}
-            />
-            K08
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              value="k07"
-              type="checkbox"
-              checked={checked === "k07"}
-              onChange={toggle}
-            />
-            K07
-          </label>
-        </div>
-      </div>
       <div>
-        {showModel ? (
-          <div className="chart-pie-model-typesorting">
-            {isLoading ? (
-              <Spin size="small" className="model-spin" />
-            ) : (
-              <div>
-                <Doughnut
-                  data={barData}
-                  options={options}
-                  height={200}
-                  width={250}
-                />
-              </div>
-            )}
-          </div>
-        ) : null}
+        <button
+          style={{ backgroundColor: "	#474747" }}
+          onClick={() => {
+            setShowTypesortingModel(!showTypesortingModel);
+          }}
+        >
+          {typeShortingBtn}
+        </button>
       </div>
+
+      {showTypesortingModel && (
+        <div>
+          <button
+            style={{ backgroundColor: "#008B8B" }}
+            onClick={() => {
+              if (checked) {
+                getModelValues();
+                setShowModel(!showModel);
+              } else {
+                alert("Please select checkbox");
+              }
+            }}
+          >
+            {chartModelBtn}
+          </button>
+          <div className="chart-pie-checkbox">
+            <div>
+              <FilterSelect setItems={setItems} />
+            </div>
+            <div>
+              <label>
+                <input
+                  style={{ color: "white" }}
+                  value="k01"
+                  type="checkbox"
+                  checked={checked === "k01"}
+                  onChange={toggle}
+                />
+                Client
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  style={{ color: "white" }}
+                  value="k09"
+                  type="checkbox"
+                  checked={checked === "k09"}
+                  onChange={toggle}
+                />
+                K09
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  value="k08"
+                  type="checkbox"
+                  checked={checked === "k08"}
+                  onChange={toggle}
+                />
+                K08
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  value="k07"
+                  type="checkbox"
+                  checked={checked === "k07"}
+                  onChange={toggle}
+                />
+                K07
+              </label>
+            </div>
+          </div>
+          <div>
+            {showModel ? (
+              <div className="chart-pie-model-typesorting">
+                {isLoading ? (
+                  <Spin size="small" className="model-spin" />
+                ) : (
+                  <div>
+                    <Doughnut
+                      data={barData}
+                      options={options}
+                      height={200}
+                      width={250}
+                    />
+                  </div>
+                )}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
