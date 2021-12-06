@@ -67,6 +67,11 @@ export const TypeSortingChart = ({ allModels }: Model) => {
     }
   };
 
+  function getEventXlsxInput(params: any) {
+    console.log({ params });
+    setItems(params);
+  }
+
   React.useEffect(() => {
     if (!allModels) return;
     const allLoadedViewers = isolateAndColorObject(
@@ -196,7 +201,7 @@ export const TypeSortingChart = ({ allModels }: Model) => {
           </button>
           <div className="chart-pie-checkbox">
             <div>
-              <FilterSelect setItems={setItems} />
+              <FilterSelect getEventXlsxInput={getEventXlsxInput} />
             </div>
             <div>
               <label>

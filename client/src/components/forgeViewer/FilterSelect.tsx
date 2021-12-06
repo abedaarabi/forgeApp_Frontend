@@ -1,7 +1,7 @@
 import React from "react";
 import { readExcel } from "./helper/readExcelHelp";
 import "./forgeViewer.css";
-const FilterSelect = ({ setItems }: any) => {
+const FilterSelect = ({ getEventXlsxInput }: any) => {
   return (
     <div>
       <label>
@@ -15,8 +15,7 @@ const FilterSelect = ({ setItems }: any) => {
             const file = e.target.files[0];
 
             const readFile = await readExcel(file);
-
-            setItems(readFile);
+            getEventXlsxInput(readFile);
           }}
         />
       </label>

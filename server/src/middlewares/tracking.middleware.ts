@@ -5,8 +5,8 @@ import { Request, Response } from 'express';
 export class TrackingMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => any) {
     let now = new Date();
-    console.log(now);
-    console.log(req.ip);
+    Logger.debug(now);
+    Logger.debug(req.ip);
 
     next();
   }
