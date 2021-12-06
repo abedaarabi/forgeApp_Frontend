@@ -163,7 +163,15 @@ export const SelectedEltChart = ({ allModels }: Model) => {
                     <option key={list}>{list}</option>
                   ))}
                 </select>
-                <p style={{ marginLeft: "90px", color: "white" }}>{calValue}</p>
+                <p
+                  style={{
+                    marginLeft: "90px",
+                    marginTop: "5px",
+                    color: "#FF6347",
+                  }}
+                >
+                  {calValue}
+                </p>
                 <div className="chart-pie-model-char">
                   <Line
                     options={options}
