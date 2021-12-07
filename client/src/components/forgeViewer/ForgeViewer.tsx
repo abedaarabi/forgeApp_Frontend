@@ -47,7 +47,7 @@ export const ForgeViewer = () => {
       ],
     });
     await viewer.start();
-    viewer.setLightPreset(2);
+    viewer.setLightPreset(4);
     viewer.setEnvMapBackground(false);
     viewer.fitToView();
 

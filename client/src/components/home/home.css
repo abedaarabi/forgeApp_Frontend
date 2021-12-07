@@ -1,3 +1,8 @@
+body {
+  background-image: url("../img/nasa-Q1p7bh3SHj8-unsplash.jpg");
+  background-size: cover;
+}
+
 .home-main-div {
   width: 600px;
   position: absolute;
@@ -13,7 +18,7 @@
   width: 150px;
   margin-top: 60px;
 
-  background-color: rgb(49, 144, 223);
+  background-color: #474747;
   font-size: large;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ForgeViewer } from "./components/forgeViewer/ForgeViewer";
 import Navbar from "./components/navbar2/Navbar";
 import Test from "./components/test/Test";
+import { Footer } from "./components/footer/Footer";
 function App() {
   return (
     <div className="App">
@@ -38,6 +39,7 @@ function App() {
           />
           <Route path="*" component={PageNotFound} />
         </Switch>
+        <Footer />
       </Router>
     </div>
   );

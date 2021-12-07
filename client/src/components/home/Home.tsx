@@ -15,12 +15,12 @@ export function Home() {
         </video>
       </div> */}
       <div className="home-main-div">
-        <h1>
+        {/* <h1>
           Welcome to<span className="moe250">ABMA Platform</span>
-        </h1>
-        <h2> Feel free to contact me if you have any question </h2>
+        </h1> */}
+
         <h3>
-          Abed Aarabi |
+          Inquiries |
           <a href="mailto:abma@moe.dk?subject=ABMA Issue"> abma@moe.dk</a>
         </h3>
         <div className="home-main-div-link">
