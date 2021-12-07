@@ -14,7 +14,7 @@ export const ProjectItems = () => {
 
   const getProject = async () => {
     try {
-      const ENDPOINT = `http://localhost:9090/projects/${id}`;
+      const ENDPOINT = `/projects/${id}`;
       const response = fetch(ENDPOINT);
       setIsLoading(true);
       const data = (await (await response).json()) as any;

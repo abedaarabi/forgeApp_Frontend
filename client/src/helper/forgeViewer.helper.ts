@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const getToken = async () => {
-  const url_base = "http://localhost:3050/projects/credentials";
+  const url_base = "/projects/credentials";
   const { data } = await axios.get(url_base);
 
   return data;
