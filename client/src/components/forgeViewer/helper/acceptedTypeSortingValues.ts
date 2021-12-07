@@ -150,7 +150,7 @@ export const accTypeSorting_K08 = [
   "VG(F/R)",
   "RVE",
   "OTV",
-  // "",
+  "",
   "VTL",
   "VTH",
   "RSA",
