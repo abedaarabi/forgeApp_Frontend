@@ -61,5 +61,5 @@
     "@types/react-router-dom": "^5.1.8",
     "@types/three": "^0.131.0"
   },
-  "proxy": "http://localhost:9090"
+  "proxy": "http://10.25.38.36/:9090"
 }
