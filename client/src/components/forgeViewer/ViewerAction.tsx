@@ -46,7 +46,9 @@ export const ViewerAction = ({ allModels }: Model) => {
         </button>
         {showColorModel ? <ModelColor allModels={allModels} /> : ""}
       </div>
-
+      <div>
+        <IotDuct allModels={allModels} />
+      </div>
       <div>
         <Chart allModels={allModels} />
       </div>
@@ -65,9 +67,6 @@ export const ViewerAction = ({ allModels }: Model) => {
           X: {mousePosition.x} Y: {mousePosition.y}
         </p>
       </div> */}
-      <div>
-        <IotDuct allModels={allModels} />
-      </div>
     </div>
   );
 };

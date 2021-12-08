@@ -165,23 +165,13 @@ input {
 }
 
 .viewer-iot-chart {
-  display: flex;
   flex-direction: column;
-  position: absolute;
-  margin-left: 900px;
-  margin-top: -250px;
 }
 .viewer-iot-chart-btn-show {
-  background-color: rgb(16, 88, 55);
-  height: 30px;
-  width: 30px;
+  background-color: rgb(72, 163, 122);
 }
 .viewer-iot-chart-btn-rmv {
-  background-color: rgb(212, 54, 62);
-  height: 30px;
-  width: 30px;
-  display: flex;
-  flex-direction: column;
+  background-color: rgb(194, 99, 103);
 }
 
 .chart-pie-checkbox {
