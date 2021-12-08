@@ -26,7 +26,11 @@ export const Project = () => {
       setAllProject(data);
     } catch (error) {}
   };
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   React.useEffect(() => {
+    inputRef.current?.focus();
     getProject();
   }, []);
 
@@ -46,6 +50,7 @@ export const Project = () => {
     <div className="search">
       <div className="searchInputs">
         <input
+          ref={inputRef}
           type="text"
           placeholder="search for project..."
           onChange={(event) => setSearch(event.target.value)}
