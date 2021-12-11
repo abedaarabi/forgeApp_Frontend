@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": "cross-env REACT_APP_PROXY=http://10.25.38.36:9090/ react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -59,7 +60,8 @@
     "@types/forge-viewer": "^7.53.0",
     "@types/node-fetch": "^2.5.12",
     "@types/react-router-dom": "^5.1.8",
-    "@types/three": "^0.131.0"
+    "@types/three": "^0.131.0",
+    "cross-env": "^7.0.3"
   },
-  "proxy": "http://10.25.38.36/:9090"
+  "proxy": "http://localhost:9090"
 }

@@ -11,8 +11,9 @@ import { SelectedEltChart } from "./charts/SelectedEltChart";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
+  isModelLoaded: any;
 }
-export const ViewerAction = ({ allModels }: Model) => {
+export const ViewerAction = ({ allModels, isModelLoaded }: Model) => {
   const [showColorModel, setShowColorModel] = React.useState(false);
 
   // const mousePosition = useMousePosition();
@@ -47,7 +48,7 @@ export const ViewerAction = ({ allModels }: Model) => {
         {showColorModel ? <ModelColor allModels={allModels} /> : ""}
       </div>
       <div>
-        <IotDuct allModels={allModels} />
+        <IotDuct allModels={allModels} isModelLoaded={isModelLoaded} />
       </div>
       <div>
         <Chart allModels={allModels} />

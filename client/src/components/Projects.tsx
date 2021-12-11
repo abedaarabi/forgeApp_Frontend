@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import "./SearchBar.css";
 import { Link } from "react-router-dom";
 
+const BASE_ENDPOINT = process.env.REACT_APP_PROXY || "http://localhost:9090/";
 export interface TypeProject {
   id: string;
   name: string;
@@ -17,7 +18,8 @@ export const Project = () => {
 
   const getProject = async () => {
     try {
-      const ENDPOINT = "/projects";
+      const ENDPOINT = BASE_ENDPOINT + "projects";
+      console.log(ENDPOINT);
       // const ENDPOINT = "process.env.BACK_END_API/projects";
       const response = fetch(ENDPOINT);
       setIsLoading(true);

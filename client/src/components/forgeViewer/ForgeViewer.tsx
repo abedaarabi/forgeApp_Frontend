@@ -157,7 +157,7 @@ export const ForgeViewer = () => {
         />
       </div>
       <div className="viewer-Action-color">
-        <ViewerAction allModels={loaededViewer} />
+        <ViewerAction allModels={loaededViewer} isModelLoaded={isModelLoaded} />
       </div>
     </div>
   );

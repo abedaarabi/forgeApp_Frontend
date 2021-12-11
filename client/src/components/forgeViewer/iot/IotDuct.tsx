@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IotChart } from "../charts/IotChart";
 import { getPointPosition } from "../helper/pointPosition";
 import { getCore, sprites } from "../IoTHelper/sprite";
 
 interface Model {
   allModels: Autodesk.Viewing.GuiViewer3D | undefined;
+  isModelLoaded: any;
 }
-export const IotDuct = ({ allModels }: Model) => {
+export const IotDuct = ({ allModels, isModelLoaded }: Model) => {
   //states
   const [core, setCore] = React.useState() as any;
   const [showIot, setShowIot] = React.useState(true);
@@ -69,6 +70,19 @@ export const IotDuct = ({ allModels }: Model) => {
       console.log(error);
     }
   }, [showIot, core]);
+
+  React.useEffect(() => {
+    console.log("modelLoaded");
+
+    if (allModels) {
+      allModels.addEventListener(
+        Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+        (e) => {
+          console.log(e);
+        }
+      );
+    }
+  }, [isModelLoaded]);
 
   const btnText = showIot ? "Show IoT Sensor" : "Hide IoT Sensor";
   const btnClass = showIot
