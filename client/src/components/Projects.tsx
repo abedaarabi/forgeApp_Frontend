@@ -12,7 +12,7 @@ export interface TypeProject {
 }
 
 export const Project = () => {
-  const [allProject, setAllProject] = React.useState([] as TypeProject[]);
+  const [allProject, setAllProject] = React.useState([] as TypeProject[])
   const [search, setSearch] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(true);
 

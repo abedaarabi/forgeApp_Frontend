@@ -64,8 +64,10 @@ export function DataTable() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const modelDerivative = async () => {
+    const BASE_ENDPOINT =
+      process.env.REACT_APP_PROXY || "http://localhost:9090/";
     try {
-      const ENDPOINT = `/projects/${id}/items/${derivativesId}`;
+      const ENDPOINT = `${BASE_ENDPOINT}projects/${id}/items/${derivativesId}`;
       const response = await fetch(ENDPOINT);
       setIsLoading(true);
       const data = await response.json();

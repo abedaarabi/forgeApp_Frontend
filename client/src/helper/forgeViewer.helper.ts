@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const getToken = async () => {
-  const url_base = "/projects/credentials";
+  const BASE_ENDPOINT = process.env.REACT_APP_PROXY || "http://localhost:9090/";
+  const url_base = `${BASE_ENDPOINT}projects/credentials`;
   const { data } = await axios.get(url_base);
 
   return data;

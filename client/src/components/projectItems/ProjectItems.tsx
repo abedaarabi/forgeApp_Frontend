@@ -13,8 +13,10 @@ export const ProjectItems = () => {
   const { id, name }: { id: string; name: string } = useParams();
 
   const getProject = async () => {
+    const BASE_ENDPOINT =
+      process.env.REACT_APP_PROXY || "http://localhost:9090/";
     try {
-      const ENDPOINT = `/projects/${id}`;
+      const ENDPOINT = `${BASE_ENDPOINT}projects/${id}`;
       const response = fetch(ENDPOINT);
       setIsLoading(true);
       const data = (await (await response).json()) as any;
