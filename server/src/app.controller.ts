@@ -1,10 +1,17 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import axios from 'axios';
+import { json } from 'express';
 
 import { AppService } from './app.service';
+import { creatQuery } from './diffsApi/createQuert';
+import { diffRequest } from './diffsApi/diffRequest';
+import { queryField } from './diffsApi/queryField';
+import { queryResult } from './diffsApi/queryResult';
+import { resultPeroperties } from './diffsApi/resultProperties';
 
 import { FolderContent } from './interfaces/interface.folder';
 import { TypeProjectDetails } from './interfaces/interface.project';
+import { delay } from './shared/array.helper';
 
 @Controller()
 export class AppController {
@@ -14,51 +21,128 @@ export class AppController {
   getHello(): Promise<FolderContent[] | TypeProjectDetails[]> {
     return this.appService.getHello();
   }
+
+  @Get('diff/:projectId/:url/:currVersion/:preVersion/')
+  async createDiff(
+    @Param('projectId') projectId,
+    @Param('url') url,
+    @Param('currVersion') currVersion,
+    @Param('preVersion') preVersion,
+  ) {
+    try {
+      const url1 = `${url}?version=${currVersion}`;
+      const url2 = `${url}?version=${preVersion}`;
+
+      while (true) {
+        const resDiffId = await diffRequest(projectId, url1, url2);
+        const { diffId, state, stats: eltInfo } = await resDiffId.diffs[0];
+        const eltStatus = await resultPeroperties(projectId, diffId);
+        console.log(resDiffId, '####');
+        if (state === 'PROCESSING') {
+          console.log('PROCESSING');
+
+          await delay(10 * 1000);
+          continue;
+        } else {
+          console.log('FINISHED');
+
+          const resultField = await queryField(projectId, diffId);
+          if (!resultField) return;
+          const resultFieldJson = parse(resultField);
+
+          const uiSelectFields = extractParams(resultFieldJson);
+
+          const queryInfo = {
+            projectId,
+            diffId,
+          };
+          return { uiSelectFields, queryInfo };
+        }
+      }
+    } catch (e) {
+      console.log({ e });
+      return e;
+    }
+  }
+  @Get('query/:projectId/:diffId/:rvtParam')
+  async createQueryByUi(
+    @Param('projectId') projectId,
+    @Param('diffId') diffId,
+    @Param('rvtParam') rvtParam,
+    @Query('keys') keys,
+  ) {
+    try {
+      const resultField = await queryField(projectId, diffId);
+      if (!resultField) return;
+      const resultFieldJson = parse(resultField);
+
+      const queryParamKey = getKeyByValue(resultFieldJson, rvtParam);
+
+      while (true) {
+        const { queryId, stats, ...rest } = await creatQuery(
+          projectId,
+          diffId,
+          queryParamKey.key,
+        );
+        const queryResultResponse = await queryResult(
+          projectId,
+          diffId,
+          queryId,
+        );
+
+        if (!queryResultResponse && stats === 'PROCESSING') {
+          await delay(1 * 1000);
+          console.log(rest, '####');
+          continue;
+        } else {
+          const resutltQuerys = parse(queryResultResponse);
+
+          return resultFieldJson;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 }
-//   @Get('diff/:url/:v1/:v2')
-//   async createDiff(@Param('url') url, @Param('v1') v1, @Param('v2') v2) {
-//     return JSON.stringify({ url, v1, v2 });
-//     try {
-//       const rs = await diffRequest();
-//       console.log({ rs });
-//       return rs;
-//     } catch (e) {
-//       console.log({ e });
-//       return e;
-//     }
-//   }
-// }
 
-// function diffRequest() {
-//   var data = JSON.stringify({
-//     diffs: [
-//       {
-//         prevVersionUrn:
-//           '',
-//         curVersionUrn:
-//           'urn:adsk.wipprod:fs.file:vf.z76_AyNBTECF8I3n7a1Ksg?version=27',
-//       },
-//     ],
-//   });
+function extractParams(arr) {
+  const neededArr = [
+    'BIM7AATypeCode',
+    'BIM7AATypeComments',
+    'BIM7AATypeName',
+    'a',
+    'Diameter',
+  ];
+  return arr
 
-//   var config = {
-//     method: 'post',
-//     url: 'https://developer.api.autodesk.com/construction/index/v2/projects/9789bc25-07fa-4fdc-9415-9951e8865d9d/diffs:batch-status',
-//     headers: {
-//       Authorization:
-//         'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOndyaXRlIiwiZGF0YTpyZWFkIiwiYnVja2V0OnJlYWQiLCJidWNrZXQ6Y3JlYXRlIiwiYnVja2V0OmRlbGV0ZSIsImNvZGU6YWxsIiwiYWNjb3VudDpyZWFkIiwiYWNjb3VudDp3cml0ZSJdLCJjbGllbnRfaWQiOiI3S1E0dnFiN3VKRldnV1lnTlJuaEU2VDVaRG5ieFBjbiIsImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9hand0ZXhwNjAiLCJqdGkiOiJMbGxGaHl1alYxeURjWlAzdHhjWVNUNkJwb3F5ZHR6dlc0dTJzS2tkQk5sbE1aWVNTT1dJQmNhTkhNSGpMWkx0IiwidXNlcmlkIjoiRzM3SFJIMjJEV0JWIiwiZXhwIjoxNjQzMTMzMzg2fQ.MPnRMQxmQ1HU8enBsWKNxUC9nnlq1ZRpsaEUmr2KO_7zflnPwvOUT5TWKQfj_cOnjvHckjCnX_twr2GJEfbfoFHe2Npk1EEsdTk19FH9tddlB4lZReZadIbHpNimQ17R_PEE2YNqr0V6lhrSk1sK6neTl4gIYoqyLFVFxfbOetwAvXXDvy5dZ6Omfop4c9ojeaww4Qd_eFfzbLvdMp5pyjXY9p_aKdyNUtMFQsdPn_t6a-yE9I6IUwExLDXMke6uhi5LDP6Bz6bMiAjFzWACnak8YYyp7avZbcRNmnbZuF6ZkdITZRGWrCLKXtE4WbvuUh7-5rzAkH_dtI8sL_sMZQ',
-//       'Content-Type': 'application/json',
-//       Cookie: 'PF=lgceHb2GLGcEmPuUa3itNQ',
-//     },
-//     data: data,
-//   };
+    .map((item) => {
+      return neededArr.find((param) => param === item.name);
+    })
+    .filter((i) => i);
+}
 
-//   // @ts-ignore
-//   return axios(config)
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-// }
+function parse(str) {
+  let result = [];
+  if (!str) return [];
+  for (const line of str.trim().split('\n')) {
+    result.push(JSON.parse(line));
+  }
+  return result;
+}
+
+function getKeyByValue(arr, key) {
+  return arr.find((item) => {
+    return Object.keys(item).find((x) => {
+      if (item[x] === key) {
+        return item;
+      }
+    });
+  });
+}
+
+// console.log(typeof uiSelectFields);
+
+// const resultEltStatus = `[${eltStatus.trim().split('\n').join(',')}]`;
+// const changedElt = `[${result.trim().split('\n').join(',')}]`;

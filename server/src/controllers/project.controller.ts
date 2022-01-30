@@ -36,9 +36,9 @@ export class ProjectController {
 
   @Get('/:projectId/')
   async getProjectItems(@Param('projectId') projectId: string) {
-    if (cache.getProjectItems[projectId]) {
-      return cache.getProjectItems[projectId];
-    }
+    // if (cache.getProjectItems[projectId]) {
+    //   return cache.getProjectItems[projectId];
+    // }
 
     const credentials = await oAuth2();
 
@@ -52,11 +52,10 @@ export class ProjectController {
 
     const publishedItems = await publishCloudWorkshared(allItems, false);
 
-    cache.getProjectItems[projectId] = publishedItems.filter(
-      (folder) => folder,
-    );
+    // cache.getProjectItems[projectId] = publishedItems.filter(
+    //   (folder) => folder,
+    // );
 
-    
     return publishedItems.filter((folder) => folder);
   }
 
