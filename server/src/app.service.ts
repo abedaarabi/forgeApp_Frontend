@@ -8,6 +8,7 @@ import { projects } from './shared/forge.projects';
 import { hub } from './shared/forge.hub';
 
 import { oAuth2 } from './shared/forge.oAuth2';
+
 @Injectable()
 export class AppService {
   async getHello(): Promise<any> {

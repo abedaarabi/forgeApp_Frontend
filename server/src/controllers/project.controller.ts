@@ -12,6 +12,10 @@ import { propertiesMetadata } from 'src/metaData/retrieveItemMetaData';
 import { verifyIsPublished } from 'src/SDKpublishModel/verifyIsPublished';
 import { publishModel } from 'src/SDKpublishModel/publishModel';
 
+const cache = {
+  getProjectItems: {},
+};
+
 @Controller('projects')
 export class ProjectController {
   @Get()
@@ -32,7 +36,12 @@ export class ProjectController {
 
   @Get('/:projectId/')
   async getProjectItems(@Param('projectId') projectId: string) {
+    // if (cache.getProjectItems[projectId]) {
+    //   return cache.getProjectItems[projectId];
+    // }
+
     const credentials = await oAuth2();
+
     const hubs = await hub(credentials);
     const allProjects = await projects(hubs);
 
@@ -41,8 +50,13 @@ export class ProjectController {
     );
     const allItems = await items(selectedProject);
 
-    const isPublished = await publishCloudWorkshared(allItems, false);
-    return isPublished;
+    const publishedItems = await publishCloudWorkshared(allItems, false);
+
+    // cache.getProjectItems[projectId] = publishedItems.filter(
+    //   (folder) => folder,
+    // );
+
+    return publishedItems.filter((folder) => folder);
   }
 
   //item
