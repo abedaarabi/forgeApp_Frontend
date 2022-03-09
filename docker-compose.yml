@@ -20,7 +20,7 @@ services:
       - /server/node_modules
     environment:
       - API_ENDPOINT:https://developer.api.autodesk.com/
-      - CLIENT_ID:7KQ4vqb7uJFWgWYgNRnhE6T5ZDnbxPcn
-      - CLIENT_SECRET:GMgjs3ljOpfRLuMW,
+      - CLIENT_ID:
+      - CLIENT_SECRET:,
     ports:
       - "9090:9090"
