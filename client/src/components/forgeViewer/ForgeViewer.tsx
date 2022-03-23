@@ -93,18 +93,18 @@ export const ForgeViewer = () => {
     const token = await getToken();
 
     //OTG
-    const viewerOptions = {
-      env: "FluentProduction",
-      api: "fluent",
-      accessToken: token,
-    };
+    // const viewerOptions = {
+    //   env: "FluentProduction",
+    //   api: "fluent",
+    //   accessToken: token,
+    // };
 
     //https://forge.autodesk.com/en/docs/viewer/v7/change_history/changelog_v7/#id8
-    // const viewerOptions = {
-    //   env: "AutodeskProduction2",
-    //   accessToken: token,
-    //   api: "streamingV2",
-    // };
+    const viewerOptions = {
+      // env: "AutodeskProduction2",
+      accessToken: token,
+      // api: "streamingV2",
+    };
 
     Autodesk.Viewing.Initializer(viewerOptions, init);
   };
