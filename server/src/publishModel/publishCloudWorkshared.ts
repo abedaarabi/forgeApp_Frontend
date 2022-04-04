@@ -22,6 +22,7 @@ export const publishCloudWorkshared = async (allItems, isPublish: boolean) => {
           item.fileName.includes('K08') ||
           item.fileName.includes('K01') ||
           item.fileName.includes('K09') ||
+          item.fileName.includes('K01') ||
           item.fileName.includes('K10'))
       ) {
         return true;
