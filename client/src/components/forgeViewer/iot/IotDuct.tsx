@@ -108,7 +108,6 @@ export const IotDuct = ({ allModels, isModelLoaded }: Model) => {
           <div>
             <IotChart />
             <IotChart />
-            <IotChart />
           </div>
         ) : null}
       </div>

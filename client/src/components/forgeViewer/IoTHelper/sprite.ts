@@ -56,17 +56,20 @@ export async function sprites(
     "dXJuOmFkc2sud2lwcHJvZDpmcy5maWxlOnZmLm1GNy1jNXBsUnY2TXVuTWtlU090LVE_dmVyc2lvbj0yNg";
   try {
     viewer.getAllModels().map((model) => {
-      if (
-        //@ts-ignore
-        model.myData.acmSessionId === uuidSt ||
-        //@ts-ignore
-        model.myData.acmSessionId === uuidMep
-      ) {
-        //@ts-ignore
-        dataVizExtn.addViewables(viewableData);
-      } else {
-        alert("Model does not have IoT sensor");
-      }
+      //@ts-ignore
+      dataVizExtn.addViewables(viewableData);
+
+      // if (
+      //   //@ts-ignore
+      //   model.myData.acmSessionId === uuidSt ||
+      //   //@ts-ignore
+      //   model.myData.acmSessionId === uuidMep
+      // ) {
+      //   //@ts-ignore
+      //   dataVizExtn.addViewables(viewableData);
+      // } else {
+      //   alert("Model does not have IoT sensor");
+      // }
     });
   } catch (error) {
     console.log(error);
